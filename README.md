@@ -25,3 +25,26 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+
+## To do
+0. [ ] initial configuration and setup
+   - [x] add Prettier
+   - [x] add Cypress
+   - [x] add Angular Material
+1. [ ] build an application to select random people or starships,
+2. [ ] render their detail to see who would win based on a common attribute (higher value wins),
+   [ ] - mass for person
+   [ ] - crew for starship
+3. [ ] render the attributes from the resource in a simple web page that allows
+   you to 'play' the game,
+4. [ ] once two cards are displayed the app should declare one of the cards a winner based on
+   the higher common attribute,
+5. [ ] having displayed the winning card, the user should be able to play again using an action
+   button that repeats the same request.
+6. [ ] include unit tests
+7. [ ] include e2e tests
+
+## Additional
+1. [ ] keep scores of all battles,
+2. [ ] add option to select which resource to play against,
+3. [ ] use Angular Material and display the details in a card.
