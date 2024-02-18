@@ -52,3 +52,5 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 - [ ] keep scores of all battles,
 - [ ] add option to select which resource to play against,
 - [ ] use Angular Material and display the details in a card.
+
+- [ ] add ESLint
