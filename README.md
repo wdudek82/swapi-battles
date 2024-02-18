@@ -32,7 +32,7 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
   - [x] add Cypress
   - [x] add Angular Material
 - [ ] Select random people or starships from SWAPI
-  - [ ] aggregate items categories UIDs on application startup,
+  - [x] aggregate items categories UIDs on application startup,
   - [ ] select two random items UIDs of the selected type,
   - [ ] use selected UIDs to make a request and fetch items data,
   - [ ] compare the items and select the "winner"
@@ -53,4 +53,6 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 - [ ] add option to select which resource to play against,
 - [ ] use Angular Material and display the details in a card.
 
-- [ ] add ESLint
+## Other
+- [x] add ESLint
+- [ ] deploy to GH pages
