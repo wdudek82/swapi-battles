@@ -1,0 +1,33 @@
+:host {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  /*min-width: 300px;*/
+}
+
+/*.loader-container {*/
+/*  display: flex;*/
+/*  justify-content: center;*/
+/*  align-items: center;*/
+/*  flex-direction: column;*/
+/*  width: 100%;*/
+/*  !*min-width: 300px;*!*/
+/*}*/
+
+.game-logs {
+  margin: 1rem auto;
+  height: 300px;
+  width: 100%;
+  max-width: 500px;
+  border: 1px solid #6b6b6b;
+  overflow: auto;
+  box-sizing: border-box;
+}
+
+@media only screen and (max-width: 768px) {
+  .game-logs {
+    /*margin: 0;*/
+  }
+}

@@ -1,0 +1,23 @@
+<button
+  mat-raised-button
+  color="primary"
+  (click)="onLoadInitialResources()"
+  [mtBasicSpinner]="viewStatus === ViewStatus.LOADING"
+  [disabled]="viewStatus === ViewStatus.LOADING"
+  [ngSwitch]="viewStatus"
+>
+  <span *ngSwitchCase="ViewStatus.LOADING">Loading game data...</span>
+  <span *ngSwitchCase="ViewStatus.ERROR || ViewStatus.SUCCESS"
+    >Reload game data</span
+  >
+  <span *ngSwitchDefault>Load game data</span>
+</button>
+<div class="game-logs">
+  <p
+    *ngFor="let record of loadedData; index as i"
+    style="margin: 0"
+    [ngStyle]="{ backgroundColor: i % 2 === 0 ? 'lightblue' : 'lightgray' }"
+  >
+    {{ formattedRecordLog(record) }}
+  </p>
+</div>

@@ -1,180 +1,43 @@
-<button mat-button [matMenuTriggerFor]="menu">Select unit</button>
-<mat-menu #menu="matMenu">
-  <button mat-menu-item>Item 1</button>
-  <button mat-menu-item>Item 2</button>
-</mat-menu>
+<app-header></app-header>
 
-<button (click)="getRandomPerson()">Random person</button>
-<button (click)="getRandomStarship()">Random starship</button>
-<hr />
-
-<div
-  class="status-container"
-  style="width: 550px; margin: 0 auto"
-  *ngIf="isSuccessful(); else tpl"
->
-  <h1 style="text-align: center">Units type: unknown</h1>
-
-  <div style="display: flex; justify-content: space-between">
-    <!-- TODO: Move card to its own component, then display two of them for each player -->
-    <mat-card class="example-card" style="width: 250px">
-      <mat-card-header>
-        <mat-card-subtitle>Player 1</mat-card-subtitle>
-        <mat-card-title>Luke Skywalker</mat-card-title>
-      </mat-card-header>
-
-      <!-- TODO: Refactor - each state card into its own component? Or move loading state to a different place use cards only for fighting units. -->
-      <!--      <mat-card-content *ngIf="isInitial()">-->
-      <!--        <p>The battlefield is empty</p>-->
-      <!--        <p>Load all the armies</p>-->
-      <!--        <mat-divider></mat-divider>-->
-      <!--      </mat-card-content>-->
-
-      <!--      <mat-card-content *ngIf="isSuccessful()">-->
-      <!--        <p>The battlefield is ready!</p>-->
-      <!--        <p>All units await orders</p>-->
-      <!--        <mat-divider></mat-divider>-->
-      <!--      </mat-card-content>-->
-
-      <!--      <mat-card-content *ngIf="isLoading()">-->
-      <!--        <p>Preparing battlefield...</p>-->
-      <!--        <p>People marching, spaceships flying...</p>-->
-      <!--        <mat-divider></mat-divider>-->
-      <!--      </mat-card-content>-->
-
-      <!--      <mat-card-content *ngIf="hasErrors()">-->
-      <!--        <p>Error!</p>-->
-      <!--        <p>Oops! Something went wrong!:(</p>-->
-      <!--        <mat-divider></mat-divider>-->
-      <!--      </mat-card-content>-->
-
-      <mat-card-actions>
-        <button
-          mat-raised-button
-          color="primary"
-          (click)="loadInitialResources()"
-          [mtBasicSpinner]="isLoading()"
-          [disabled]="isLoading()"
-          [ngSwitch]="viewStatus"
-        >
-          <span *ngSwitchCase="ViewStatus.LOADING">Loading...</span>
-          <span *ngSwitchCase="ViewStatus.ERROR || ViewStatus.SUCCESS"
-            >Reload</span
-          >
-          <span *ngSwitchDefault>Load</span>
-        </button>
-
-        <p>Score: 0</p>
-      </mat-card-actions>
-      <mat-card-footer>
-        <mat-progress-bar
-          mode="indeterminate"
-          *ngIf="isLoading()"
-        ></mat-progress-bar>
-      </mat-card-footer>
-    </mat-card>
-
-    <mat-card class="example-card" style="width: 250px">
-      <mat-card-header>
-        <mat-card-subtitle>Player 2</mat-card-subtitle>
-        <mat-card-title>Star Destroyer</mat-card-title>
-      </mat-card-header>
-
-      <!-- TODO: Refactor - each state card into its own component? Or move loading state to a different place use cards only for fighting units. -->
-      <!--      <mat-card-content *ngIf="isInitial()">-->
-      <!--        <p>The battlefield is empty</p>-->
-      <!--        <p>Load all the armies</p>-->
-      <!--        <mat-divider></mat-divider>-->
-      <!--      </mat-card-content>-->
-
-      <!--      <mat-card-content *ngIf="isSuccessful()">-->
-      <!--        <p>The battlefield is ready!</p>-->
-      <!--        <p>All units await orders</p>-->
-      <!--        <mat-divider></mat-divider>-->
-      <!--      </mat-card-content>-->
-
-      <!--      <mat-card-content *ngIf="isLoading()">-->
-      <!--        <p>Preparing battlefield...</p>-->
-      <!--        <p>People marching, spaceships flying...</p>-->
-      <!--        <mat-divider></mat-divider>-->
-      <!--      </mat-card-content>-->
-
-      <!--      <mat-card-content *ngIf="hasErrors()">-->
-      <!--        <p>Error!</p>-->
-      <!--        <p>Oops! Something went wrong!:(</p>-->
-      <!--        <mat-divider></mat-divider>-->
-      <!--      </mat-card-content>-->
-
-      <mat-card-actions>
-        <button
-          mat-raised-button
-          color="primary"
-          (click)="loadInitialResources()"
-          [mtBasicSpinner]="isLoading()"
-          [disabled]="isLoading()"
-          [ngSwitch]="viewStatus"
-        >
-          <span *ngSwitchCase="ViewStatus.LOADING">Loading...</span>
-          <span *ngSwitchCase="ViewStatus.ERROR || ViewStatus.SUCCESS"
-            >Reload</span
-          >
-          <span *ngSwitchDefault>Load</span>
-        </button>
-
-        <p>Score: 0</p>
-      </mat-card-actions>
-      <mat-card-footer>
-        <mat-progress-bar
-          mode="indeterminate"
-          *ngIf="isLoading()"
-        ></mat-progress-bar>
-      </mat-card-footer>
-    </mat-card>
-  </div>
-</div>
-
-<ng-template #tpl>
+<div class="main-container" style="display: flex; justify-content: center">
   <div
+    *ngIf="viewStatus === ViewStatus.SUCCESS; else tpl"
     class="status-container"
-    style="
-      width: 550px;
-      margin: 0 auto;
-      display: flex;
-      justify-content: center;
-      flex-direction: column;
-    "
+    style="display: flex; flex-direction: column; align-items: center"
   >
-    <button
-      mat-raised-button
-      color="primary"
-      (click)="loadInitialResources()"
-      [mtBasicSpinner]="isLoading()"
-      [disabled]="isLoading()"
-      [ngSwitch]="viewStatus"
-    >
-      <span *ngSwitchCase="ViewStatus.LOADING">Loading game data...</span>
-      <span *ngSwitchCase="ViewStatus.ERROR || ViewStatus.SUCCESS"
-        >Reload game data</span
-      >
-      <span *ngSwitchDefault>Load game data</span>
-    </button>
-    <div
-      style="
-        margin-top: 1rem;
-        height: 300px;
-        border: 1px solid black;
-        overflow: auto;
-        overflow-x: scroll;
-      "
-    >
-      <p
-        *ngFor="let record of loadedData; index as i"
-        style="margin: 0"
-        [ngStyle]="{ backgroundColor: i % 2 == 0 ? 'lightblue' : 'lightgray' }"
-      >
-        {{ record | json }}
-      </p>
+    <h1>Units type: People</h1>
+
+    <div class="player-cards__container">
+      <!-- TODO: Move card to its own component, then display two of them for each player -->
+      <app-player-card
+        subtitle="Player 1"
+        [viewStatus]="viewStatus"
+        (loadResources)="onLoadInitialResources()"
+        style="margin-right: 1rem; margin-bottom: 1rem"
+      ></app-player-card>
+      <app-player-card
+        subtitle="Player 2"
+        [viewStatus]="viewStatus"
+        (loadResources)="onLoadInitialResources()"
+        style="margin-right: 1rem; margin-bottom: 1rem"
+      ></app-player-card>
     </div>
 
+    <button mat-raised-button>Fight!</button>
   </div>
-</ng-template>
+
+  <ng-template #tpl>
+      <app-loading-screen
+        [loadedData]="loadedData"
+        [viewStatus]="viewStatus"
+        (loadInitialResources)="onLoadInitialResources()"
+      ></app-loading-screen>
+  </ng-template>
+</div>
+
+<!-- TODO: Remove after testing is complete -->
+<div>
+  <button (click)="getRandomPerson()">Random person</button>
+  <button (click)="getRandomStarship()">Random starship</button>
+</div>

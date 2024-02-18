@@ -1,0 +1,20 @@
+.status-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  min-width: 300px;
+}
+
+/* TODO: Move to a separate component (?) */
+.player-cards__container {
+  display: flex;
+  flex-direction: row;
+}
+
+@media only screen and (max-width: 768px) {
+  .player-cards__container {
+    flex-direction: column;
+  }
+}

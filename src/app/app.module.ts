@@ -8,29 +8,45 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDivider } from '@angular/material/divider';
 import { MatProgressBar } from '@angular/material/progress-bar';
 import { MatButton } from '@angular/material/button';
-import { NgxLoadingButtonsModule } from 'ngx-loading-buttons';
 import { ToastrModule } from 'ngx-toastr';
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
 import { MatIcon } from '@angular/material/icon';
 import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu';
+import { MatToolbar, MatToolbarRow } from '@angular/material/toolbar';
+import { NgxLoadingButtonsModule } from 'ngx-loading-buttons';
+
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { HeaderComponent } from './components/header/header.component';
+import {
+  PlayerCardsContainerComponent
+} from './components/player-cards/player-cards-container/player-cards-container.component';
+import { PlayerCardComponent } from './components/player-cards/player-card/player-card.component';
+import { LoadingScreenComponent } from './components/loading-screen/loading-screen.component';
 
 const materialUIModules = [
   MatCardModule,
   MatProgressSpinnerModule,
-  MatDivider,
   MatProgressBar,
+  MatDivider,
   MatButton,
   MatMenu,
   MatMenuItem,
   MatMenuTrigger,
   MatIcon,
+  MatToolbar,
+  MatToolbarRow,
 ];
 
 const thirdPartyModules = [NgxLoadingButtonsModule, ToastrModule.forRoot()];
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [
+    AppComponent,
+    HeaderComponent,
+    PlayerCardsContainerComponent,
+    PlayerCardComponent,
+    LoadingScreenComponent,
+  ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

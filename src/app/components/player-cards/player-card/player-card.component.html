@@ -1,0 +1,30 @@
+<mat-card class="example-card" style="width: 250px">
+  <mat-card-header>
+    <mat-card-subtitle>{{ subtitle }}</mat-card-subtitle>
+    <mat-card-title>Luke Skywalker</mat-card-title>
+  </mat-card-header>
+
+  <mat-card-actions>
+    <button
+      mat-raised-button
+      color="primary"
+      [mtBasicSpinner]="isLoading()"
+      [disabled]="isLoading()"
+      [ngSwitch]="viewStatus"
+    >
+      <span *ngSwitchCase="ViewStatus.LOADING">Loading...</span>
+      <span *ngSwitchCase="ViewStatus.ERROR || ViewStatus.SUCCESS"
+      >Reload</span
+      >
+      <span *ngSwitchDefault>Load</span>
+    </button>
+
+    <p>Score: 0</p>
+  </mat-card-actions>
+  <mat-card-footer>
+    <mat-progress-bar
+      mode="indeterminate"
+      *ngIf="isLoading()"
+    ></mat-progress-bar>
+  </mat-card-footer>
+</mat-card>

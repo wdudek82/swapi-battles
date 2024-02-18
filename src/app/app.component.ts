@@ -1,14 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { Resources } from './models/swapi.models';
-import { DataService } from './services/data.service';
+import { Component } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-
-enum ViewStatus {
-  INITIAL = 'initial',
-  LOADING = 'loading',
-  ERROR = 'error',
-  SUCCESS = 'success',
-}
+import { DataService } from './services/data.service';
+import { ViewStatus } from './models/viewStatus';
+import { Resources, SwApiResult } from './models/swapi.models';
 
 @Component({
   selector: 'app-root',
@@ -19,14 +13,14 @@ export class AppComponent {
   protected readonly ViewStatus = ViewStatus;
   viewStatus = ViewStatus.INITIAL;
 
-  loadedData: any[] = [];
+  loadedData: SwApiResult[] = [];
 
   constructor(
     private dataService: DataService,
     private toastr: ToastrService,
   ) {}
 
-  loadInitialResources(): void {
+  onLoadInitialResources(): void {
     this.viewStatus = ViewStatus.LOADING;
 
     this.dataService.loadInitialResources().subscribe({
@@ -35,9 +29,12 @@ export class AppComponent {
 
         res.results.forEach((result) => {
           this.loadedData.unshift({
-            type: result.url.includes('people') ? 'person' : 'starship',
             uid: result.uid,
             name: result.name,
+            url: result.url,
+            type: result.url.includes('people')
+              ? Resources.people
+              : Resources.starships,
           });
         });
       },
@@ -57,28 +54,38 @@ export class AppComponent {
   getRandomPerson(): void {
     this.dataService.getRandomPerson().subscribe((data) => {
       console.log('AppComponent | person:', data);
+
+      // TODO: Move toasts to a separate methods/service
+      if (!data) {
+        this.toastr.warning(
+          'Please reload people data and try again',
+          'No people data',
+        );
+      }
+
+      this.toastr.success(
+        'Person loaded successfully',
+        'Loaded',
+      );
     });
   }
 
   getRandomStarship(): void {
     this.dataService.getRandomStarship().subscribe((data) => {
       console.log('AppComponent | starship:', data);
+
+      // TODO: Move toasts to a separate methods/service
+      if (!data) {
+        this.toastr.warning(
+          'Please reload spaceships data and try again',
+          'No spaceships data',
+        );
+      }
+
+      this.toastr.success(
+        'Spaceships loaded successfully',
+        'Loaded',
+      );
     });
-  }
-
-  isInitial(): boolean {
-    return this.viewStatus === ViewStatus.INITIAL;
-  }
-
-  isLoading(): boolean {
-    return this.viewStatus === ViewStatus.LOADING;
-  }
-
-  hasErrors(): boolean {
-    return this.viewStatus === ViewStatus.ERROR;
-  }
-
-  isSuccessful(): boolean {
-    return this.viewStatus === ViewStatus.SUCCESS;
   }
 }
