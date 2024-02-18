@@ -33,5 +33,6 @@ export interface SwApiResult {
   name: string;
   url: string;
   properties?: { [key: string]: string };
+  type?: Resources;
 }
 
