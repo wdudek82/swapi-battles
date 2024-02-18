@@ -37,8 +37,8 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
   - [ ] use selected UIDs to make a request and fetch items data,
   - [ ] compare the items and select the "winner"
 - [ ] render their detail to see who would win based on a common attribute (higher value wins),
-  - [ ] - mass for person
-  - [ ] - crew for starship
+  - [ ] mass for person
+  - [ ] crew for starship
 - [ ] render the attributes from the resource in a simple web page that allows
    you to 'play' the game,
 - [ ] once two cards are displayed the app should declare one of the cards a winner based on
