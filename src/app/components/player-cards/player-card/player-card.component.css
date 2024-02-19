@@ -2,10 +2,6 @@
   margin: 1rem 0 0 1rem;
 }
 
-mat-card {
-  width: 280px;
-}
-
 @media only screen and (max-width: 768px) {
   :host {
     margin-left: 0;
@@ -13,12 +9,34 @@ mat-card {
   }
 }
 
-.won {
+mat-card {
+  width: 280px;
+}
+
+mat-card-footer {
+  display: flex;
+  justify-content: center;
+}
+
+.victory {
   background-color: lightgreen;
 }
-.lost {
+.victory .battle-outcome-text {
+  color: green;
+}
+
+.defeat {
   background-color: palevioletred;
 }
-.tie {
+.defeat .battle-outcome-text {
+  color: darkred;
+}
+
+.tie-bg {
   background-color: lightgray;
+}
+
+.battle-outcome-text {
+  font-weight: bold;
+  text-align: center;
 }

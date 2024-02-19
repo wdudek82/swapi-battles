@@ -12,5 +12,11 @@ export class PlayerCardComponent {
   @Input() playerData!: PlayerData;
   @Input() score = 0;
 
-  protected readonly BattleOutcome = BattleOutcome;
+  getPlayerDetails() {
+    const { additions, properties } = this.playerData;
+    if (additions.type === UnitType.people) {
+      return `Mass: ${properties?.mass ?? 0}`;
+    }
+    return `Crew: ${properties?.crew ?? 0}`;
+  }
 }

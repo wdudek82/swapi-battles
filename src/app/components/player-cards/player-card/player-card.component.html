@@ -1,4 +1,7 @@
-<mat-card class="example-card" [ngClass]="playerData.additions.battleResult">
+<mat-card
+  class="example-card"
+  [ngClass]="playerData.additions.battleOutcome"
+>
   <mat-card-header>
     <mat-card-title-group>
       <mat-card-title>{{ subtitle }}</mat-card-title>
@@ -6,14 +9,11 @@
     </mat-card-title-group>
   </mat-card-header>
   <mat-card-content>
-    <p>Score: {{ score }}</p>
-    <p>
-      Battle outcome:
-      {{
-        playerData.additions.battleResult !== BattleOutcome.NONE
-          ? playerData.additions.battleResult
-          : '-'
-      }}
-    </p>
+    <div>Score: {{ score }}</div>
+    <div>{{ getPlayerDetails() }}</div>
+    <div [ngSwitch]="playerData.additions.battleOutcome" class="battle-outcome-text">
+      <span *ngSwitchCase="BattleOutcome.VICTORY">Won</span>
+      <span *ngSwitchCase="BattleOutcome.DEFEAT">Lost</span>
+    </div>
   </mat-card-content>
 </mat-card>
