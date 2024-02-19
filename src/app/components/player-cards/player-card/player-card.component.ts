@@ -1,6 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { ViewStatus } from '../../../models/viewStatus';
-import { BattleOutcome, SwApiResult } from '../../../models/swapi.models';
+import { BattleOutcome, UnitType, PlayerData } from '../../../models/swapi.models';
 
 @Component({
   selector: 'app-player-card',
@@ -8,9 +7,9 @@ import { BattleOutcome, SwApiResult } from '../../../models/swapi.models';
   styleUrl: './player-card.component.css',
 })
 export class PlayerCardComponent {
-  protected readonly ViewStatus = ViewStatus;
+  protected readonly BattleOutcome = BattleOutcome;
   @Input() subtitle = 'Player';
-  @Input() playerData!: SwApiResult;
+  @Input() playerData!: PlayerData;
   @Input() score = 0;
 
   protected readonly BattleOutcome = BattleOutcome;

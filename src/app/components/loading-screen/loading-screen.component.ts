@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ViewStatus } from '../../models/viewStatus';
-import { SwApiResult } from '../../models/swapi.models';
+import { PlayerData } from '../../models/swapi.models';
 
 @Component({
   selector: 'app-loading-screen',
@@ -9,7 +9,7 @@ import { SwApiResult } from '../../models/swapi.models';
 })
 export class LoadingScreenComponent {
   @Input() viewStatus!: ViewStatus;
-  @Input() loadedData!: SwApiResult[];
+  @Input() loadedData!: PlayerData[];
 
   @Output() loadInitialResources = new EventEmitter<void>();
 
@@ -19,7 +19,7 @@ export class LoadingScreenComponent {
     this.loadInitialResources.emit();
   }
 
-  formattedRecordLog(record: SwApiResult): string {
+  formattedRecordLog(record: PlayerData): string {
     return `[${record.additions.type}] UID: ${record.uid}: ${record.name}`;
   }
 }

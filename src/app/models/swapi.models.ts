@@ -1,40 +1,37 @@
-export enum Resources {
-  people = 'people',
-  starships = 'starships',
-}
-
-export interface SwApiRes {
-  message: string;
-}
-
-export interface SwApiItemsListRes extends SwApiRes {
+export interface ApiPageResponse {
   total_records: number;
   previous: string | null;
   next: string | null;
-  results: SwApiResult[];
+  results: PlayerData[];
+  message: string;
 }
 
-export interface SwApiItemRes extends SwApiRes {
+export interface ApiItemResponse {
   result: {
     properties: { [key: string]: string };
   };
+  message: string;
 }
 
 export enum BattleOutcome {
-  WON = 'won',
-  LOST = 'lost',
+  VICTORY = 'victory',
+  DEFEAT = 'defeat',
   TIE = 'tie',
   NONE = 'none',
 }
 
-export interface SwApiResult {
+export enum UnitType {
+  people = 'people',
+  starships = 'starships',
+}
+
+export interface PlayerData {
   uid: string;
   name: string;
   url: string;
-  properties?: { [key: string]: string };
+  properties?: { mass?: string; crew?: string };
   additions: {
-    type: Resources;
-    battleResult: BattleOutcome;
-  }
+    type: UnitType;
+    battleOutcome: BattleOutcome;
+  };
 }
-
