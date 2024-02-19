@@ -7,7 +7,7 @@ import { DataService } from '../../services/data.service';
 @Component({
   selector: 'app-loading-screen',
   templateUrl: './loading-screen.component.html',
-  styleUrl: './loading-screen.component.css',
+  styleUrl: './loading-screen.component.scss',
 })
 export class LoadingScreenComponent implements OnInit {
   protected readonly ViewStatus = ViewStatus;

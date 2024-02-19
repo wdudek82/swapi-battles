@@ -4,7 +4,7 @@ import { BattleOutcome, UnitType, UnitData } from '../../../models/swapi.models'
 @Component({
   selector: 'app-player-card',
   templateUrl: './player-card.component.html',
-  styleUrl: './player-card.component.css',
+  styleUrl: './player-card.component.scss',
 })
 export class PlayerCardComponent {
   protected readonly BattleOutcome = BattleOutcome;

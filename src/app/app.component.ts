@@ -8,7 +8,7 @@ import { BattleOutcome, UnitType, UnitData } from './models/swapi.models';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css',
+  styleUrl: './app.component.scss',
 })
 export class AppComponent {
   protected readonly UnitType = UnitType;

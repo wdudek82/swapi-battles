@@ -27,8 +27,11 @@ h1 {
   display: flex;
   justify-content: center;
 }
-.game-buttons button:not(:last-child) {
-  margin-right: 0.5rem;
+
+.game-buttons {
+  button:not(:last-child) {
+    margin-right: 0.5rem;
+  }
 }
 
 .player-cards__container {

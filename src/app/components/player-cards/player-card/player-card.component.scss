@@ -8,7 +8,6 @@
     margin-right: 0;
   }
 }
-
 mat-card {
   width: 280px;
 }
@@ -20,16 +19,18 @@ mat-card-footer {
 
 .victory {
   background-color: lightgreen;
-}
-.victory .battle-outcome-text {
-  color: green;
+
+  .battle-outcome-text {
+    color: green;
+  }
 }
 
 .defeat {
   background-color: palevioletred;
-}
-.defeat .battle-outcome-text {
-  color: darkred;
+
+  .battle-outcome-text {
+    color: darkred;
+  }
 }
 
 .tie {
