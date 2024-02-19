@@ -38,19 +38,19 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 - [x] render their detail to see who would win based on a common attribute (higher value wins),
   - [x] mass for person
   - [x] crew for starship
-- [ ] render the attributes from the resource in a simple web page that allows
+- [x] render the attributes from the resource in a simple web page that allows
    you to 'play' the game,
-- [ ] once two cards are displayed the app should declare one of the cards a winner based on
-   the higher common attribute,
-- [ ] having displayed the winning card, the user should be able to play again using an action
+- [ ] ~~once two cards are displayed~~ once two card are displayed, and the user clicks "Fight!", button the app should declare one of the cards a winner based on
+   the higher common attribute, (reason: changed for UX reasons)
+- [x] having displayed the winning card, the user should be able to play again using an action
    button that repeats the same request.
 - [ ] include unit tests
 - [ ] include e2e tests
 
 ## Additional
-- [ ] keep scores of all battles,
-- [ ] add option to select which resource to play against,
-- [ ] use Angular Material and display the details in a card.
+- [x] keep scores of all battles,
+- [x] add option to select which resource to play against,
+- [x] use Angular Material and display the details in a card.
 
 ## Other
 - [x] add ESLint
