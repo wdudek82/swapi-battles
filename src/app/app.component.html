@@ -9,27 +9,19 @@
     <h1>Units type: People</h1>
 
     <div class="game-board__container">
-      <!-- TODO: This should show loader, fetch data of pre-selected resource, that is then passed to the player cards, and increment the correct player score -->
-      <!-- TODO: Add buttons spinners -->
       <section style="display: flex; justify-content: center">
         <button
+          *ngFor="let resource of [Resources.people, Resources.starships]"
           mat-raised-button
+          [mtBasicSpinner]="isLoadingResource[resource]"
           color="primary"
-          [disabled]="playersViewStatus === ViewStatus.LOADING && playersData.length < 2"
-          (click)="getRandomResourceOfTypeForPlayers(Resources.people)"
+          [disabled]="playersViewStatus === ViewStatus.LOADING"
+          (click)="getRandomResourceOfTypeForPlayers(resource)"
           style="margin-right: 0.5rem"
         >
-          Prepare infantry!
+          Prepare {{ resource }}!
         </button>
-        <button
-          mat-raised-button
-          color="primary"
-          [disabled]="playersViewStatus === ViewStatus.LOADING && playersData.length < 2"
-          (click)="getRandomResourceOfTypeForPlayers(Resources.starships)"
-          style="margin-right: 0.5rem"
-        >
-          Prepare starships!
-        </button>
+
         <button
           mat-raised-button
           color="warn"
