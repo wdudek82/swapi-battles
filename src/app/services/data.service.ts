@@ -11,14 +11,12 @@ import {
   throwError,
 } from 'rxjs';
 import {
-  Person,
+  BattleOutcome,
   Resources,
-  Starship,
   SwApiItemRes,
   SwApiItemsListRes,
   SwApiResult,
 } from '../models/swapi.models';
-import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root',
@@ -30,19 +28,18 @@ export class DataService {
     starships: [],
   };
 
-  constructor(
-    private http: HttpClient,
-    private toastr: ToastrService,
-  ) {}
+  constructor(private http: HttpClient) {}
 
-  loadInitialResources(): Observable<SwApiItemsListRes> {
+  loadAllInitialResources(): Observable<SwApiItemsListRes> {
     return concat(
       this.loadInitialResourcesOfType(Resources.people),
       this.loadInitialResourcesOfType(Resources.starships),
     );
   }
 
-  private loadInitialResourcesOfType(type: Resources): Observable<SwApiItemsListRes> {
+  private loadInitialResourcesOfType(
+    type: Resources,
+  ): Observable<SwApiItemsListRes> {
     const initialUrl = `${this.baseApiUrl}/${type}`;
     return this.fetchResourcePage(initialUrl).pipe(
       expand(({ next, results }) => {
@@ -52,30 +49,12 @@ export class DataService {
     );
   }
 
-  getRandomPerson(): Observable<Person | undefined> {
-    return this.getRandomResource(Resources.people) as Observable<
-      Person | undefined
-    >;
-  }
-
-  getRandomStarship(): Observable<Starship | undefined> {
-    return this.getRandomResource(Resources.starships) as Observable<
-      Starship | undefined
-    >;
-  }
-
-  private fetchResourcePage(url: string): Observable<SwApiItemsListRes> {
-    return this.http.get<SwApiItemsListRes>(url);
-  }
-
-  private getRandomResource(
-    type: Resources,
-  ): Observable<SwApiResult | undefined> {
+  getRandomResourceOfType(type: Resources): Observable<SwApiResult> {
     const randomIndex = this.getRandomIndex(type);
 
     if (randomIndex === -1) {
       // TODO: Exception handling?
-      return of(undefined);
+      return throwError(() => new Error('no initial data'));
     }
 
     let resource = this.resources[Resources[type]][randomIndex];
@@ -89,25 +68,24 @@ export class DataService {
       console.log(`Fetching resource of type ${type}, uid: ${resource.uid}...`);
       return this.fetchResourceOfTypeByUid(type, resource.uid).pipe(
         map((res) => {
-          resource = { ...resource, properties: res.result.properties };
+          resource = {
+            ...resource,
+            properties: res.result.properties,
+            additions: { type, battleResult: BattleOutcome.NONE },
+          };
           this.resources[Resources[type]][randomIndex] = resource;
           return resource;
         }),
         catchError((err) => {
           // TODO: Error handling
-          console.error(err);
           return throwError(() => err);
         }),
       );
     }
   }
 
-  private getRandomIndex(type: Resources): number {
-    const resourcesLength = this.resources[Resources[type]].length;
-
-    if (!resourcesLength) return -1;
-
-    return Math.floor(Math.random() * resourcesLength);
+  private fetchResourcePage(url: string): Observable<SwApiItemsListRes> {
+    return this.http.get<SwApiItemsListRes>(url);
   }
 
   private fetchResourceOfTypeByUid(
@@ -126,5 +104,13 @@ export class DataService {
           return throwError(() => err);
         }),
       );
+  }
+
+  private getRandomIndex(type: Resources): number {
+    const resourcesLength = this.resources[Resources[type]].length;
+
+    if (!resourcesLength) return -1;
+
+    return Math.floor(Math.random() * resourcesLength);
   }
 }

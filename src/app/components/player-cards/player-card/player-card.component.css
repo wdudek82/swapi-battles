@@ -1,0 +1,24 @@
+:host {
+  margin: 1rem 0 0 1rem;
+}
+
+mat-card {
+  width: 280px;
+}
+
+@media only screen and (max-width: 768px) {
+  :host {
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
+
+.won {
+  background-color: lightgreen;
+}
+.lost {
+  background-color: palevioletred;
+}
+.tie {
+  background-color: lightgray;
+}

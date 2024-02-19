@@ -8,36 +8,55 @@
   >
     <h1>Units type: People</h1>
 
-    <div class="player-cards__container">
-      <!-- TODO: Move card to its own component, then display two of them for each player -->
-      <app-player-card
-        subtitle="Player 1"
-        [viewStatus]="viewStatus"
-        (loadResources)="onLoadInitialResources()"
-        style="margin-right: 1rem; margin-bottom: 1rem"
-      ></app-player-card>
-      <app-player-card
-        subtitle="Player 2"
-        [viewStatus]="viewStatus"
-        (loadResources)="onLoadInitialResources()"
-        style="margin-right: 1rem; margin-bottom: 1rem"
-      ></app-player-card>
-    </div>
+    <div class="game-board__container">
+      <!-- TODO: This should show loader, fetch data of pre-selected resource, that is then passed to the player cards, and increment the correct player score -->
+      <section style="display: flex; justify-content: center">
+        <button
+          mat-raised-button
+          color="primary"
+          [disabled]="playersViewStatus === ViewStatus.LOADING && playersData.length < 2"
+          (click)="getRandomResourceOfTypeForPlayers(Resources.people)"
+          style="margin-right: 0.5rem"
+        >
+          Prepare infantry!
+        </button>
+        <button
+          mat-raised-button
+          color="primary"
+          [disabled]="playersViewStatus === ViewStatus.LOADING && playersData.length < 2"
+          (click)="getRandomResourceOfTypeForPlayers(Resources.starships)"
+          style="margin-right: 0.5rem"
+        >
+          Prepare starships!
+        </button>
+        <button
+          mat-raised-button
+          color="warn"
+          [disabled]="playersData.length < 2 || playersViewStatus === ViewStatus.INITIAL"
+          (click)="calculateResult()"
+        >
+          Fight!
+        </button>
+      </section>
 
-    <button mat-raised-button>Fight!</button>
+      <section class="player-cards__container">
+        <!-- TODO: Move card to its own component, then display two of them for each player -->
+        <app-player-card
+          *ngFor="let data of playersData; index as i"
+          [subtitle]="'Player ' + (i + 1)"
+          [playerData]="playersData[i]"
+          [score]="scores[i]"
+        ></app-player-card>
+      </section>
+    </div>
   </div>
 
   <ng-template #tpl>
-      <app-loading-screen
-        [loadedData]="loadedData"
-        [viewStatus]="viewStatus"
-        (loadInitialResources)="onLoadInitialResources()"
-      ></app-loading-screen>
+    <app-loading-screen
+      [loadedData]="loadedData"
+      [viewStatus]="viewStatus"
+      (loadInitialResources)="onLoadInitialResources()"
+    ></app-loading-screen>
   </ng-template>
 </div>
 
-<!-- TODO: Remove after testing is complete -->
-<div>
-  <button (click)="getRandomPerson()">Random person</button>
-  <button (click)="getRandomStarship()">Random starship</button>
-</div>

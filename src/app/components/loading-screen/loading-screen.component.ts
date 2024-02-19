@@ -20,6 +20,6 @@ export class LoadingScreenComponent {
   }
 
   formattedRecordLog(record: SwApiResult): string {
-    return `[${record.type}] UID: ${record.uid}: ${record.name}`;
+    return `[${record.additions.type}] UID: ${record.uid}: ${record.name}`;
   }
 }
