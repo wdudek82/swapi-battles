@@ -8,6 +8,9 @@
   "files": [
     "src/main.ts"
   ],
+  "exclude": [
+    "cypress.config.ts"
+  ],
   "include": [
     "src/**/*.d.ts"
   ]

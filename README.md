@@ -27,24 +27,45 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
 
 ## To do
-0. [ ] initial configuration and setup
-   - [x] add Prettier
-   - [x] add Cypress
-   - [x] add Angular Material
-1. [ ] build an application to select random people or starships,
-2. [ ] render their detail to see who would win based on a common attribute (higher value wins),
-   [ ] - mass for person
-   [ ] - crew for starship
-3. [ ] render the attributes from the resource in a simple web page that allows
+- [x] initial configuration and setup
+  - [x] add Prettier
+  - [x] add Cypress
+  - [x] add Angular Material
+- [x] Select random people or starships from SWAPI
+  - [x] aggregate items categories UIDs on application startup,
+  - [x] select two random items UIDs of the selected type,
+  - [x] use selected UIDs to make a request and fetch items data,
+- [x] render their detail to see who would win based on a common attribute (higher value wins),
+  - [x] mass for person
+  - [x] crew for starship
+- [x] render the attributes from the resource in a simple web page that allows
    you to 'play' the game,
-4. [ ] once two cards are displayed the app should declare one of the cards a winner based on
-   the higher common attribute,
-5. [ ] having displayed the winning card, the user should be able to play again using an action
+- [ ] ~~once two cards are displayed~~ once two card are displayed, and the user clicks "Fight!", button the app should declare one of the cards a winner based on
+   the higher common attribute, (reason: changed for UX reasons)
+- [x] having displayed the winning card, the user should be able to play again using an action
    button that repeats the same request.
-6. [ ] include unit tests
-7. [ ] include e2e tests
+- [ ] include unit tests
+- [ ] include e2e tests
 
 ## Additional
-1. [ ] keep scores of all battles,
-2. [ ] add option to select which resource to play against,
-3. [ ] use Angular Material and display the details in a card.
+- [x] keep scores of all battles,
+- [x] add option to select which resource to play against,
+- [x] use Angular Material and display the details in a card.
+
+## Other
+- [x] add ESLint
+- [ ] deploy to GH pages
+
+## Comments
+When "Load game data" button is clicked, application tries to fetch all items list pages for people and starships from SW API.
+I decided to do that because esp. in case of spaceships UIDs are not sequential. There are gaps between them, so I couldn't infere e.g. from `total_count` what UIDs can be used.
+The other solution I considered was to use `total_count` to get the general idea of how many items are there, but I quickly discarded this idea because `total_count` of 5 could as well mean that these potential items have ids e.g.: 1, 15, 1000, etc.
+
+When initial game data is loaded I'm showing loaded objects in a small box because I feel that spinner alone would not be a sufficient feedback to the user.
+In the improved version I would replace box and the spinner with e.g. progress bar.
+
+To improve the present mechanism I would cache the preloaded items list in localStorage which would improve the project in two ways:
+1. initial load time,
+2. wait time for individual units (because currently after each battle I'm storing properties of known unit on the preloaded items list).
+
+I decided to add the `Fight!` button to delay showing battle results, after selected units are loaded, just for fun.
