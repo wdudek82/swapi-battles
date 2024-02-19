@@ -2,7 +2,7 @@ export interface ApiPageResponse {
   total_records: number;
   previous: string | null;
   next: string | null;
-  results: PlayerData[];
+  results: UnitData[];
   message: string;
 }
 
@@ -25,7 +25,7 @@ export enum UnitType {
   starships = 'starships',
 }
 
-export interface PlayerData {
+export interface UnitData {
   uid: string;
   name: string;
   url: string;

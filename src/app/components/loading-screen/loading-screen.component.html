@@ -14,10 +14,9 @@
 </button>
 <div class="game-logs">
   <p
-    *ngFor="let record of loadedData; index as i"
-    style="margin: 0"
+    *ngFor="let record of loadedGameData$ | async; index as i"
     [ngStyle]="{ backgroundColor: i % 2 === 0 ? 'lightblue' : 'lightgray' }"
   >
-    {{ formattedRecordLog(record) }}
+    {{ record | json }}
   </p>
 </div>

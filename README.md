@@ -31,7 +31,7 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
   - [x] add Prettier
   - [x] add Cypress
   - [x] add Angular Material
-- [ ] Select random people or starships from SWAPI
+- [x] Select random people or starships from SWAPI
   - [x] aggregate items categories UIDs on application startup,
   - [x] select two random items UIDs of the selected type,
   - [x] use selected UIDs to make a request and fetch items data,
@@ -55,3 +55,17 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 ## Other
 - [x] add ESLint
 - [ ] deploy to GH pages
+
+## Comments
+When "Load game data" button is clicked, application tries to fetch all items list pages for people and starships from SW API.
+I decided to do that because esp. in case of spaceships UIDs are not sequential. There are gaps between them, so I couldn't infere e.g. from `total_count` what UIDs can be used.
+The other solution I considered was to use `total_count` to get the general idea of how many items are there, but I quickly discarded this idea because `total_count` of 5 could as well mean that these potential items have ids e.g.: 1, 15, 1000, etc.
+
+When initial game data is loaded I'm showing loaded objects in a small box because I feel that spinner alone would not be a sufficient feedback to the user.
+In the improved version I would replace box and the spinner with e.g. progress bar.
+
+To improve the present mechanism I would cache the preloaded items list in localStorage which would improve the project in two ways:
+1. initial load time,
+2. wait time for individual units (because currently after each battle I'm storing properties of known unit on the preloaded items list).
+
+I decided to add the `Fight!` button to delay showing battle results, after selected units are loaded, just for fun.

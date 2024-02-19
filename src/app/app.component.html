@@ -1,31 +1,30 @@
 <app-header></app-header>
 
-<div class="main-container" style="display: flex; justify-content: center">
+<div class="main-container">
   <div
     *ngIf="viewStatus === ViewStatus.SUCCESS; else tpl"
     class="status-container"
-    style="display: flex; flex-direction: column; align-items: center"
   >
-    <h1>Units type: People</h1>
+    <h1>Select units type and start the battle!</h1>
 
     <div class="game-board__container">
-      <section style="display: flex; justify-content: center">
+      <section class="game-buttons">
         <button
-          *ngFor="let resource of [Resources.people, Resources.starships]"
+          *ngFor="let units of [UnitType.people, UnitType.starships]"
           mat-raised-button
-          [mtBasicSpinner]="isLoadingResource[resource]"
+          [mtBasicSpinner]="isLoadingResource[units]"
           color="primary"
           [disabled]="playersViewStatus === ViewStatus.LOADING"
-          (click)="getRandomResourceOfTypeForPlayers(resource)"
-          style="margin-right: 0.5rem"
+          (click)="getRandomResourceOfTypeForPlayers(units)"
         >
-          Prepare {{ resource }}!
+          <span *ngIf="!isLoadingResource[units]">Prepare {{ units }}</span>
+          <span *ngIf="isLoadingResource[units]">Preparing {{ units }}...</span>
         </button>
 
         <button
           mat-raised-button
           color="warn"
-          [disabled]="playersData.length < 2 || playersViewStatus === ViewStatus.INITIAL"
+          [disabled]="isFightBtnDisabled"
           (click)="calculateResult()"
         >
           Fight!
@@ -46,10 +45,8 @@
 
   <ng-template #tpl>
     <app-loading-screen
-      [loadedData]="loadedData"
       [viewStatus]="viewStatus"
       (loadInitialResources)="onLoadInitialResources()"
     ></app-loading-screen>
   </ng-template>
 </div>
-

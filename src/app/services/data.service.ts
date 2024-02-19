@@ -8,6 +8,7 @@ import {
   map,
   Observable,
   of,
+  Subject,
   throwError,
 } from 'rxjs';
 import {
@@ -15,18 +16,21 @@ import {
   UnitType,
   ApiItemResponse,
   ApiPageResponse,
-  PlayerData,
+  UnitData,
 } from '../models/swapi.models';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DataService {
-  baseApiUrl = 'https://swapi.tech/api';
-  resources: { [key: string]: PlayerData[] } = {
+  baseApiUrl = environment.swApiBaseUrl;
+  unitsData: { [key: string]: UnitData[] } = {
     people: [],
     starships: [],
   };
+  private _loadedGameDataSub$: Subject<UnitData[]> = new Subject();
+  loadedGameData$ = this._loadedGameDataSub$.asObservable();
 
   constructor(private http: HttpClient) {}
 
@@ -43,29 +47,25 @@ export class DataService {
     const initialUrl = `${this.baseApiUrl}/${type}`;
     return this.fetchResourcePage(initialUrl).pipe(
       expand(({ next, results }) => {
-        this.resources[UnitType[type]].push(...results);
+        this.unitsData[UnitType[type]].push(...results);
+        this._loadedGameDataSub$.next(results);
         return next ? this.fetchResourcePage(next) : EMPTY;
       }),
     );
   }
 
-  getRandomResourceOfType(type: UnitType): Observable<PlayerData> {
+  getRandomResourceOfType(type: UnitType): Observable<UnitData> {
     const randomIndex = this.getRandomIndex(type);
 
     if (randomIndex === -1) {
-      // TODO: Exception handling?
       return throwError(() => new Error('no initial data'));
     }
 
-    let resource = this.resources[UnitType[type]][randomIndex];
+    let resource = this.unitsData[UnitType[type]][randomIndex];
 
     if (Object.hasOwn(resource, 'properties')) {
-      console.log(
-        `Resource of type ${type}, UID ${resource.uid} retrieved from cache`,
-      );
       return of(resource);
     } else {
-      console.log(`Fetching resource of type ${type}, uid: ${resource.uid}...`);
       return this.fetchResourceOfTypeByUid(type, resource.uid).pipe(
         map((res) => {
           resource = {
@@ -73,7 +73,7 @@ export class DataService {
             properties: res.result.properties,
             additions: { type, battleOutcome: BattleOutcome.NONE },
           };
-          this.resources[UnitType[type]][randomIndex] = resource;
+          this.unitsData[UnitType[type]][randomIndex] = resource;
           return resource;
         }),
         catchError((err) => {
@@ -92,10 +92,6 @@ export class DataService {
     type: UnitType,
     uid: string,
   ): Observable<ApiItemResponse> {
-    // TODO:
-    //  1. check if item data is cached - use cache or proceed with making request
-    //  2. return item data
-
     return this.http
       .get<ApiItemResponse>(`${this.baseApiUrl}/${UnitType[type]}/${uid}`)
       .pipe(
@@ -107,7 +103,7 @@ export class DataService {
   }
 
   private getRandomIndex(type: UnitType): number {
-    const resourcesLength = this.resources[UnitType[type]].length;
+    const resourcesLength = this.unitsData[UnitType[type]].length;
 
     if (!resourcesLength) return -1;
 

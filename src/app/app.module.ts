@@ -17,9 +17,6 @@ import { NgxLoadingButtonsModule } from 'ngx-loading-buttons';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
-import {
-  PlayerCardsContainerComponent
-} from './components/player-cards/player-cards-container/player-cards-container.component';
 import { PlayerCardComponent } from './components/player-cards/player-card/player-card.component';
 import { LoadingScreenComponent } from './components/loading-screen/loading-screen.component';
 
@@ -43,7 +40,6 @@ const thirdPartyModules = [NgxLoadingButtonsModule, ToastrModule.forRoot()];
   declarations: [
     AppComponent,
     HeaderComponent,
-    PlayerCardsContainerComponent,
     PlayerCardComponent,
     LoadingScreenComponent,
   ],

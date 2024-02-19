@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
+import { concat } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { DataService } from './services/data.service';
 import { ViewStatus } from './models/viewStatus';
-import { BattleOutcome, UnitType, PlayerData } from './models/swapi.models';
-import { catchError, concat, map, throwError } from 'rxjs';
+import { BattleOutcome, UnitType, UnitData } from './models/swapi.models';
 
 @Component({
   selector: 'app-root',
@@ -11,19 +11,17 @@ import { catchError, concat, map, throwError } from 'rxjs';
   styleUrl: './app.component.css',
 })
 export class AppComponent {
-  protected readonly Resources = UnitType;
+  protected readonly UnitType = UnitType;
   protected readonly ViewStatus = ViewStatus;
 
   viewStatus = ViewStatus.INITIAL;
-
-  loadedData: PlayerData[] = [];
 
   playersViewStatus = ViewStatus.INITIAL;
   isLoadingResource: Record<UnitType, boolean> = {
     [UnitType.people]: false,
     [UnitType.starships]: false,
   };
-  playersData: PlayerData[] = [];
+  playersData: UnitData[] = [];
   scores = [0, 0];
 
   constructor(
@@ -35,17 +33,6 @@ export class AppComponent {
     this.viewStatus = ViewStatus.LOADING;
 
     this.dataService.loadAllInitialResources().subscribe({
-      next: (res) => {
-        res.results.forEach((result) => {
-          this.loadedData.unshift({
-            ...result,
-            additions: {
-              ...result.additions,
-              type: UnitType.people ? UnitType.people : UnitType.starships,
-            },
-          });
-        });
-      },
       error: (_err) => {
         this.viewStatus = ViewStatus.ERROR;
         this.toastr.error('Something went wrong...', 'Preloading failed');
@@ -54,6 +41,10 @@ export class AppComponent {
         this.viewStatus = ViewStatus.SUCCESS;
       },
     });
+  }
+
+  isFightBtnDisabled(): boolean {
+    return this.playersData.length < 2 || this.playersViewStatus === ViewStatus.INITIAL;
   }
 
   getRandomResourceOfTypeForPlayers(type: UnitType): void {
@@ -80,7 +71,6 @@ export class AppComponent {
       complete: () => {
         this.playersViewStatus = ViewStatus.SUCCESS;
         this.isLoadingResource[type] = false;
-        console.log('players data loaded:', this.playersData);
       },
     });
   }
@@ -94,6 +84,7 @@ export class AppComponent {
 
   calculateResult(): void {
     this.playersViewStatus = ViewStatus.INITIAL;
+
     const calculateValue = (value?: string): number => {
       if (!value || value === 'unknown') {
         return 0;

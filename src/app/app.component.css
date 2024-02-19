@@ -1,3 +1,12 @@
+h1 {
+  text-align: center;
+}
+
+.main-container {
+  display: flex;
+  justify-content: center;
+}
+
 .status-container {
   display: flex;
   justify-content: center;
@@ -7,12 +16,19 @@
   min-width: 300px;
 }
 
-/* TODO: Move to a separate component (?) */
 .game-board__container {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.game-buttons {
+  display: flex;
+  justify-content: center;
+}
+.game-buttons button:not(:last-child) {
+  margin-right: 0.5rem;
 }
 
 .player-cards__container {

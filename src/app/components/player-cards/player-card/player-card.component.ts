@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { BattleOutcome, UnitType, PlayerData } from '../../../models/swapi.models';
+import { BattleOutcome, UnitType, UnitData } from '../../../models/swapi.models';
 
 @Component({
   selector: 'app-player-card',
@@ -9,7 +9,7 @@ import { BattleOutcome, UnitType, PlayerData } from '../../../models/swapi.model
 export class PlayerCardComponent {
   protected readonly BattleOutcome = BattleOutcome;
   @Input() subtitle = 'Player';
-  @Input() playerData!: PlayerData;
+  @Input() playerData!: UnitData;
   @Input() score = 0;
 
   getPlayerDetails() {
