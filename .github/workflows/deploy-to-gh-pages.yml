@@ -1,4 +1,4 @@
-name: Build and Deploy to GitHub Pages
+name: Deploy to GitHub Pages
 
 on:
   push:
@@ -21,12 +21,12 @@ jobs:
         run: npm ci
 
       - name: Build Angular project
-        run: npm run build --prod
+        run: npm run build
 
       - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v1
-        with:
-          path: dist/swapi-battles
+        uses: actions/deploy-pages@v4
+#        with:
+#          path: dist/swapi-battles
 
       - name: Increment Minor Version
         id: get_version
