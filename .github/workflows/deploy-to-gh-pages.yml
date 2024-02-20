@@ -14,7 +14,7 @@ jobs:
       id-token: write
 
     environment:
-      name: github-pages
+      name: swapi-battles
 
     steps:
       - uses: actions/checkout@v3
@@ -39,8 +39,7 @@ jobs:
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
         with:
-
-          artifact_name: "swapi-battles"
+          artifact_name: swapi-battles
 
       - name: Increment Minor Version
         id: get_version
