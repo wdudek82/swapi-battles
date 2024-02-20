@@ -40,11 +40,11 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
   - [x] crew for starship
 - [x] render the attributes from the resource in a simple web page that allows
    you to 'play' the game,
-- [ ] ~~once two cards are displayed~~ once two card are displayed, and the user clicks "Fight!", button the app should declare one of the cards a winner based on
+- [x] ~~once two cards are displayed~~ once two card are displayed, and the user clicks "Fight!", button the app should declare one of the cards a winner based on
    the higher common attribute, (reason: changed for UX reasons)
 - [x] having displayed the winning card, the user should be able to play again using an action
    button that repeats the same request.
-- [ ] include unit tests
+- [x] include unit tests
 - [ ] include e2e tests
 
 ## Additional
