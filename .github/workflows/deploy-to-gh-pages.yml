@@ -27,11 +27,16 @@ jobs:
       - name: Build Angular project
         run: npm run build
 
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: swapi-battles       # Match with deploy step's artifact_name
+          path: dist/swapi-battles  # Path to your Angular build output
+
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
         with:
           artifact_name: "swapi-battles"
-#          path: dist/swapi-battles
 
       - name: Increment Minor Version
         id: get_version
