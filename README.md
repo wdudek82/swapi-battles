@@ -55,6 +55,11 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 ## Other
 - [x] add ESLint
 - [ ] deploy to GH pages
+- [x] include GH workflows:
+  - [ ] PR checks
+  - [ ] automatic deployment to GH pages on merge to master or manual
+- [ ] add Docker and docker-compose
+  - [ ] add relevant README instructions
 
 ## Comments
 When "Load game data" button is clicked, application tries to fetch all items list pages for people and starships from SW API.
