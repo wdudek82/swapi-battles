@@ -36,8 +36,8 @@ jobs:
       - name: Upload Build Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: swapi-battles   # Match with deploy step's artifact_name
-          path: swapi-battles   # Path to your Angular build output
+          name: swapi-battles                # Match with deploy step's artifact_name
+          path: dist/swapi-battles/browser   # Path to your Angular build output
 
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
