@@ -20,15 +20,15 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Bump project minor version
+      - name: Generate new minor version
         id: get_version
         run: |
           version=$(node -p "const p = require('./package.json'); p.version.split('.').map((v,i) => i===1 ? parseInt(v,10)+1 : v).join('.');")
           echo ::set-output name=new_version::$version
 
-#      - name: Update project version
-#        run: |
-#          npm version ${{ steps.get_version.outputs.new_version }} --no-git-tag-version
+      - name: Update project version
+        run: |
+          npm version ${{ steps.get_version.outputs.new_version }} --no-git-tag-version
 
       - name: Commit changes and push
         uses: actions/create-release@v1
