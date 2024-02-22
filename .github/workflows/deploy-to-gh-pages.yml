@@ -1,8 +1,8 @@
 name: Deploy to GitHub Pages
 
 on:
-  push:
-    branches: [master]
+#  push:
+#    branches: [master]
   workflow_dispatch:
 
 jobs:
@@ -17,46 +17,42 @@ jobs:
       name: swapi-battles
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '20'
 
       - name: Install dependencies
         run: npm ci
 
       - name: Build Angular project
-        run: npm run build
-
-      - name: Upload Build Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: swapi-battles       # Match with deploy step's artifact_name
-          path: dist/swapi-battles  # Path to your Angular build output
+        run: npm run build:prod
 
       - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v4
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
-          artifact_name: swapi-battles
+          folder: dist/
+          branch: gh-pages
+          token: ${{ secrets.PAGES_TOKEN }}
 
-      - name: Increment Minor Version
-        id: get_version
-        run: |
-          version=$(node -p "const p = require('./package.json'); p.version.split('.').map((v,i) => i==1 ? parseInt(v)+1 : i==0 ? v : 0).join('.')")
-          echo ::set-output name=new_version::$version
-
-      - name: Update package.json
-        run: |
-          npm version ${{ steps.get_version.outputs.new_version }} --no-git-tag-version
-
-      - name: Commit changes and push
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: v${{ steps.get_version.outputs.new_version }}
-          release_name: Release v${{ steps.get_version.outputs.new_version }}
-          draft: false
-          prerelease: false
+#      - name: Increment Minor Version
+#        id: get_version
+#        run: |
+#          version=$(node -p "const p = require('./package.json'); p.version.split('.').map((v,i) => i==1 ? parseInt(v)+1 : i==0 ? v : 0).join('.')")
+#          echo ::set-output name=new_version::$version
+#
+#      - name: Update package.json
+#        run: |
+#          npm version ${{ steps.get_version.outputs.new_version }} --no-git-tag-version
+#
+#      - name: Commit changes and push
+#        uses: actions/create-release@v1
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#        with:
+#          tag_name: v${{ steps.get_version.outputs.new_version }}
+#          release_name: Release v${{ steps.get_version.outputs.new_version }}
+#          draft: false
+#          prerelease: false
