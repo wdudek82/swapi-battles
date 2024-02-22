@@ -1,0 +1,37 @@
+name: Update master branch
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  update-master-branch:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Increment Minor Version
+        id: get_version
+        run: |
+          version=$(node -p "const p = require('./package.json'); p.version.split('.').map((v,i) => i==1 ? parseInt(v)+1 : i==0 ? v : 0).join('.')")
+          echo ::set-output name=new_version::$version
+
+      - name: Update package.json
+        run: |
+          npm version ${{ steps.get_version.outputs.new_version }} --no-git-tag-version
+
+      - name: Commit changes and push
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ steps.get_version.outputs.new_version }}
+          release_name: Release v${{ steps.get_version.outputs.new_version }}
+          draft: false
+          prerelease: false
