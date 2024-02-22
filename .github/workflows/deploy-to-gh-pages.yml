@@ -46,7 +46,7 @@ jobs:
         with:
           folder: dist/
           branch: gh-pages
-#          token: ${{ secrets.PAGES_TOKEN }}
+          token: ${{ secrets.PAGES_TOKEN }}
 
 #      - name: Increment Minor Version
 #        id: get_version
