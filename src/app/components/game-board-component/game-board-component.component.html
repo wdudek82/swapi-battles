@@ -1,0 +1,35 @@
+<div
+  class="status-container"
+>
+  <h1>Select units type and start the battle!</h1>
+
+  <div class="game-board__container">
+    <section class="game-buttons">
+      <button
+        *ngFor="let units of [UnitType.people, UnitType.starships]"
+        mat-raised-button
+        [mtBasicSpinner]="isLoadingResource[units]"
+        color="primary"
+        [disabled]="playersViewStatus === ViewStatus.LOADING"
+        (click)="getRandomResourceOfTypeForPlayers(units)"
+      >
+        <span *ngIf="!isLoadingResource[units]">Prepare {{ units }}</span>
+        <span *ngIf="isLoadingResource[units]">Preparing {{ units }}...</span>
+      </button>
+
+      <button
+        mat-raised-button
+        color="warn"
+        [disabled]="isFightBtnDisabled()"
+        (click)="calculateResult()"
+      >
+        Fight!
+      </button>
+    </section>
+
+    <app-player-cards-container
+      [playersData]="playersData"
+      [scores]="scores"
+    ></app-player-cards-container>
+  </div>
+</div>
