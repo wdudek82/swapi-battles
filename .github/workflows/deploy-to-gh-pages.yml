@@ -41,6 +41,13 @@ jobs:
         with:
           artifact_name: swapi-battles
 
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: dist/
+          branch: gh-pages
+#          token: ${{ secrets.PAGES_TOKEN }}
+
 #      - name: Increment Minor Version
 #        id: get_version
 #        run: |
