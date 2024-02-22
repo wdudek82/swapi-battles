@@ -1,0 +1,52 @@
+<app-header></app-header>
+
+<div class="main-container">
+  <div
+    *ngIf="viewStatus === ViewStatus.SUCCESS; else tpl"
+    class="status-container"
+  >
+    <h1>Select units type and start the battle!</h1>
+
+    <div class="game-board__container">
+      <section class="game-buttons">
+        <button
+          *ngFor="let units of [UnitType.people, UnitType.starships]"
+          mat-raised-button
+          [mtBasicSpinner]="isLoadingResource[units]"
+          color="primary"
+          [disabled]="playersViewStatus === ViewStatus.LOADING"
+          (click)="getRandomResourceOfTypeForPlayers(units)"
+        >
+          <span *ngIf="!isLoadingResource[units]">Prepare {{ units }}</span>
+          <span *ngIf="isLoadingResource[units]">Preparing {{ units }}...</span>
+        </button>
+
+        <button
+          mat-raised-button
+          color="warn"
+          [disabled]="isFightBtnDisabled"
+          (click)="calculateResult()"
+        >
+          Fight!
+        </button>
+      </section>
+
+      <section class="player-cards__container">
+        <!-- TODO: Move card to its own component, then display two of them for each player -->
+        <app-player-card
+          *ngFor="let data of playersData; index as i"
+          [subtitle]="'Player ' + (i + 1)"
+          [playerData]="playersData[i]"
+          [score]="scores[i]"
+        ></app-player-card>
+      </section>
+    </div>
+  </div>
+
+  <ng-template #tpl>
+    <app-loading-screen
+      [viewStatus]="viewStatus"
+      (loadInitialResources)="onLoadInitialResources()"
+    ></app-loading-screen>
+  </ng-template>
+</div>

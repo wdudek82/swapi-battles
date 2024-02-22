@@ -1,0 +1,21 @@
+:host {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+}
+
+.game-logs {
+  margin: 1rem auto;
+  height: 300px;
+  width: 100%;
+  max-width: 500px;
+  border: 1px solid #6b6b6b;
+  overflow: auto;
+  box-sizing: border-box;
+
+  p {
+    margin: 0;
+  }
+}

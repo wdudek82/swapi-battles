@@ -1,0 +1,20 @@
+<mat-card class="example-card" [ngClass]="playerData.additions.battleOutcome">
+  <mat-card-header>
+    <mat-card-title-group>
+      <mat-card-title>{{ subtitle }}</mat-card-title>
+      <mat-card-subtitle>{{ playerData.name }}</mat-card-subtitle>
+    </mat-card-title-group>
+  </mat-card-header>
+  <mat-card-content>
+    <div>{{ getPlayerDetails() }}</div>
+    <div>Score: {{ score }}</div>
+    <div
+      [ngSwitch]="playerData.additions.battleOutcome"
+      class="battle-outcome-text"
+    >
+      <span *ngSwitchCase="BattleOutcome.VICTORY">Won</span>
+      <span *ngSwitchCase="BattleOutcome.DEFEAT">Lost</span>
+      <span *ngSwitchCase="BattleOutcome.TIE">TIE</span>
+    </div>
+  </mat-card-content>
+</mat-card>
