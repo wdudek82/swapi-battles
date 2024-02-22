@@ -23,10 +23,10 @@ jobs:
       - name: Increment Minor Version
         id: get_version
         run: |
-          version=$(node -p "const p = require('./package.json'); p.version.split('.').map((v,i) => i==1 ? parseInt(v)+1 : i==0 ? v : 0).join('.')")
+          version=$(node -p "const p = require('./package.json'); version.split('.').map((v,i) => i===1 ? parseInt(v,10)+1 : v).join('.');")
           echo ::set-output name=new_version::$version
 
-      - name: Update package.json
+      - name: Update project version
         run: |
           npm version ${{ steps.get_version.outputs.new_version }} --no-git-tag-version
 
