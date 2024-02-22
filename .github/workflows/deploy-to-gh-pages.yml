@@ -28,18 +28,7 @@ jobs:
         run: npm ci
 
       - name: Build Angular project
-        run: npm run build --base-href=/swapi-battles/
-
-      - name: Upload Build Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: swapi-battles   # Match with deploy step's artifact_name
-          path: dist/           # Path to your Angular build output
-
-      - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v4
-        with:
-          artifact_name: swapi-battles
+        run: npm run build:prod
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
