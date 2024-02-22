@@ -30,14 +30,11 @@ jobs:
       - name: Build Angular project
         run: npm run build --base-href=/swapi-battles/
 
-      - name: Remove node_modules
-        run: rm -rf node_modules
-
       - name: Upload Build Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: swapi-battles                # Match with deploy step's artifact_name
-          path: dist/swapi-battles           # Path to your Angular build output
+          name: swapi-battles   # Match with deploy step's artifact_name
+          path: dist/           # Path to your Angular build output
 
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
