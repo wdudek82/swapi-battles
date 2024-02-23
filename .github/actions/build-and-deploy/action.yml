@@ -36,9 +36,11 @@ runs:
         node-version: '20'
 
     - name: Install dependencies
+      shell: bash
       run: npm ci
 
     - name: Build Angular project
+      shell: bash
       run: npm run build:prod
 
     - name: Deploy to Github Pages
