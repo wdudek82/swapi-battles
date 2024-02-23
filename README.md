@@ -26,6 +26,18 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
 
+## Docker (prod)
+
+### Build image
+```shell
+docker image build -t swapi-battles-fe-prod .
+```
+
+### Run container
+```shell
+docker run -p 4200:80 swapi-battles-fe-prod
+```
+
 ## To do
 - [x] initial configuration and setup
   - [x] add Prettier
@@ -44,8 +56,8 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
    the higher common attribute, (reason: changed for UX reasons)
 - [x] having displayed the winning card, the user should be able to play again using an action
    button that repeats the same request.
-- [x] include unit tests
-- [ ] include e2e tests
+- [ ] include e2e tests (scenarios in section: "e2e test scenerios")
+- [ ] include unit tests (scenarios in section: "Unit tests test scenarios")
 
 ## Additional
 - [x] keep scores of all battles,
@@ -54,12 +66,49 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 ## Other
 - [x] add ESLint
-- [ ] deploy to GH pages
+- [x] deploy to GH pages
 - [x] include GH workflows:
-  - [ ] PR checks
-  - [ ] automatic deployment to GH pages on merge to master or manual
-- [ ] add Docker and docker-compose
-  - [ ] add relevant README instructions
+  - [x] PR checks
+  - [x] automatic deployment to GH pages on merge to master or manual
+- [x] add Docker and docker-compose
+  - [x] add relevant README instructions
+
+## e2e test scenarios
+- [x] page loaded:
+1. page loaded
+2. page title
+3. header with span "SW-API Battles"
+4. "Load game data" button
+5. loading box
+
+- [ ] load game data button clicked:
+1. loading button disabled
+2. loader visible
+3. loading window shows logs
+
+- [ ] loading finished:
+1. visible: h1 containing: "Select units type and start the battle!"
+2. visible: 3 buttons:
+  - Prepare people - enabled
+  - Prepare starships - enabled
+  - Fight! - disabled
+3. no player cards visible in the main-container
+
+- [ ] Prepare people/starships button clicked:
+1. all three buttons disabled during loading
+2. Prepare people button contains spinner
+
+- [ ] "People"/"Starships" units loaded:
+1. two app-player-card visible - all the data as in mocks
+2. three buttons are now enabled, no loading
+
+- [ ] "Fight!" button clicked:
+1. "Fight!" button disabled, two "Prepare" buttons enabled
+2. player cards styles updated
+3. scores in cards updated
+
+# Unit tests test scenarios
+..
 
 ## Comments
 When "Load game data" button is clicked, application tries to fetch all items list pages for people and starships from SW API.
