@@ -33,7 +33,7 @@ jobs:
       - name: Set git username and email
         shell: bash
         run: |
-          git config --global user.email "wdudek82+gh-bot@gmail.com
+          git config --global user.email "wdudek82+gh-bot@gmail.com"
           git config --global user.name "R2D2"
 
       - name: Commit and push changes
