@@ -58,13 +58,14 @@ jobs:
           draft: false
           prerelease: false
 
-      - uses: actions/checkout@v4
-
-      - name: Build and deploy to Github pages
-        uses: ./.github/actions/build-and-deploy
-        with:
-          appName: ${{ github.event.repository.name }}
-          buildFolder: dist/swapi-battles
-          deploymentBranch: gh-pages
-          environmentName: ${{ github.event.repository.name }}
-          token: ${{ secrets.PAGES_TOKEN }}
+# TODO: This part still needs more work
+#      - uses: actions/checkout@v4
+#
+#      - name: Build and deploy to Github pages
+#        uses: ./.github/actions/build-and-deploy
+#        with:
+#          appName: ${{ github.event.repository.name }}
+#          buildFolder: dist/swapi-battles
+#          deploymentBranch: gh-pages
+#          environmentName: ${{ github.event.repository.name }}
+#          token: ${{ secrets.PAGES_TOKEN }}
