@@ -10,7 +10,11 @@ jobs:
 
     permissions:
       contents: write
+      pages: write
       id-token: write
+
+    environment:
+      name: ${{ inputs.environmentName }}
 
     steps:
       - uses: actions/checkout@v4
@@ -20,15 +24,29 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Generate new minor version
+      - name: Create a new project version tag
         id: get_version
         run: |
           version=$(node -p "const p = require('./package.json'); p.version.split('.').map((v,i) => i===1 ? parseInt(v,10)+1 : v).join('.');")
           echo ::set-output name=new_version::$version
 
-      - name: Update project version
+      - name: Increment project version
         run: |
           npm version ${{ steps.get_version.outputs.new_version }} --no-git-tag-version
+
+# TODO: Because of the branch projection set on master branch this change has to be done via PR
+#      - name: Set git username and email
+#        shell: bash
+#        run: |
+#          git config --global user.email "wdudek82+gh-bot@gmail.com"
+#          git config --global user.name "R2D2"
+#
+#      - name: Commit and push changes
+#        shell: bash
+#        run: |
+#          git add package.json
+#          git commit -m "Updated project version"
+#          git push
 
       - name: Commit changes and push
         uses: actions/create-release@v1
@@ -39,3 +57,15 @@ jobs:
           release_name: Release v${{ steps.get_version.outputs.new_version }}
           draft: false
           prerelease: false
+
+# TODO: This part still needs more work
+#      - uses: actions/checkout@v4
+#
+#      - name: Build and deploy to Github pages
+#        uses: ./.github/actions/build-and-deploy
+#        with:
+#          appName: ${{ github.event.repository.name }}
+#          buildFolder: dist/swapi-battles
+#          deploymentBranch: gh-pages
+#          environmentName: ${{ github.event.repository.name }}
+#          token: ${{ secrets.PAGES_TOKEN }}

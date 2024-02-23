@@ -1,12 +1,10 @@
-name: Deploy to GitHub Pages
+name: Manual deployment to Github Pages
 
 on:
-#  push:
-#    branches: [master]
   workflow_dispatch:
 
 jobs:
-  deploy-to-gh-pages:
+  manual-deployment-to-gh-pages:
     runs-on: ubuntu-latest
 
     permissions:
@@ -33,6 +31,7 @@ jobs:
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          folder: dist/
+          folder: dist/swapi-battles
           branch: gh-pages
           token: ${{ secrets.PAGES_TOKEN }}
+
