@@ -30,18 +30,19 @@ jobs:
         run: |
           npm version ${{ steps.get_version.outputs.new_version }} --no-git-tag-version
 
-      - name: Set git username and email
-        shell: bash
-        run: |
-          git config --global user.email "wdudek82+gh-bot@gmail.com"
-          git config --global user.name "R2D2"
-
-      - name: Commit and push changes
-        shell: bash
-        run: |
-          git add package.json
-          git commit -m "Updated project version"
-          git push
+# TODO: Because of the branch projection set on master branch this change has to be done via PR
+#      - name: Set git username and email
+#        shell: bash
+#        run: |
+#          git config --global user.email "wdudek82+gh-bot@gmail.com"
+#          git config --global user.name "R2D2"
+#
+#      - name: Commit and push changes
+#        shell: bash
+#        run: |
+#          git add package.json
+#          git commit -m "Updated project version"
+#          git push
 
       - name: Commit changes and push
         uses: actions/create-release@v1
