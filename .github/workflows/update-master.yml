@@ -10,7 +10,11 @@ jobs:
 
     permissions:
       contents: write
+      pages: write
       id-token: write
+
+    environment:
+      name: ${{ inputs.environmentName }}
 
     steps:
       - uses: actions/checkout@v4
@@ -63,3 +67,4 @@ jobs:
           buildFolder: dist/swapi-battles
           deploymentBranch: gh-pages
           environmentName: ${{ github.event.repository.name }}
+          token: ${{ secrets.PAGES_TOKEN }}
