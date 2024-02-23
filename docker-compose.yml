@@ -9,3 +9,4 @@ services:
       - "4200:4200" # Or your desired host:container port mapping
     volumes:
       - ./:/app  # Optional: For live development code changes
+      - /app/node_modules

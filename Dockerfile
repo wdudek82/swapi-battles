@@ -1,10 +1,11 @@
 # Stage 1: Build Stage
-FROM node:18-alpine as build-stage
+FROM node:20-alpine as build-stage
 WORKDIR /app
 COPY package*.json ./
+RUN npm install -g @angular/cli
 RUN npm ci
 COPY . .
-RUN npm run build --prod
+RUN npm run build
 
 # Stage 2: Production Stage
 FROM nginx:alpine
