@@ -1,5 +1,8 @@
 # SWAPI Battles
 
+## Deployed app URI
+https://wdudek82.github.io/swapi-battles/ (used also as a baseUrl in Cypress e2e tests)
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.2.0.
 
 ## Development server
@@ -81,10 +84,14 @@ docker run -p 4200:80 swapi-battles-fe-prod
 4. "Load game data" button
 5. loading box
 
-- [ ] load game data button clicked:
+- [x] data preloading failure:
+1. button still active but its label is changed
+2. error toast visible
+
+- [ ] load game data button clicked (success):
 1. loading button disabled
-2. loader visible
-3. loading window shows logs
+2. loader visible in the button
+3. loading window contains logs
 
 - [ ] loading finished:
 1. visible: h1 containing: "Select units type and start the battle!"
