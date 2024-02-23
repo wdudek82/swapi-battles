@@ -17,12 +17,21 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: "Build and deploy"
-        uses: ./.github/actions/build-and-deploy
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          appName: ${{ github.event.repository.name }}
-          buildFolder: dist/swapi-battles
-          deploymentBranch: gh-pages
-          environmentName: ${{ github.event.repository.name }}
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Angular project
+        run: npm run build:prod
+
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: dist/swapi-battles
+          branch: gh-pages
           token: ${{ secrets.PAGES_TOKEN }}
 
