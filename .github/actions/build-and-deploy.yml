@@ -1,0 +1,47 @@
+name: "Build and deploy to Github pages"
+
+inputs:
+  appName:
+    description: "App name according to angular.json"
+  buildFolder:
+    description: "Path to browser build containing index.html (same as angular.json outputPath)"
+  deploymentBranch:
+    description: "Branch used as a base for deployment"
+  environmentName:
+    description: "Github environment name"
+
+outputs:
+  new-build-deployed:
+    description: "The new application build has been deployed to Github pages"
+    value: ${{ github.event.repository.name }}
+
+runs:
+  using: "composite"
+
+  permissions:
+    pages: write
+    id-token: write
+
+  environment:
+    name: ${{ inputs.environmentName }}
+
+  steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Build Angular project
+      run: npm run build:prod
+
+    - name: Deploy to Github Pages
+      uses: JamesIves/github-pages-deploy-action@v4
+      with:
+        folder: ${{ inputs.buildFolder }}
+        branch: ${{ inputs.deploymentBranch }}
+        token: ${{ secrets.PAGES_TOKEN }}
