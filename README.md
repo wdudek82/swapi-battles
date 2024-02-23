@@ -26,6 +26,18 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
 
+## Docker (prod)
+
+### Build image
+```shell
+docker image build -t swapi-battles-fe-prod .
+```
+
+### Run container
+```shell
+docker run -p 4200:80 swapi-battles-fe-prod
+```
+
 ## To do
 - [x] initial configuration and setup
   - [x] add Prettier
