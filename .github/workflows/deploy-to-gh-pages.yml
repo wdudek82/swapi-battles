@@ -7,12 +7,12 @@ jobs:
   manual-deployment-to-gh-pages:
     runs-on: ubuntu-latest
 
-#    permissions:
-#      pages: write
-#      id-token: write
-#
-#    environment:
-#      name: swapi-battles
+    permissions:
+      pages: write
+      id-token: write
+
+    environment:
+      name: swapi-battles
 
     steps:
       - name: "Build and deploy"
@@ -22,5 +22,5 @@ jobs:
           buildFolder: dist/swapi-battles
           deploymentBranch: gh-pages
           environmentName: ${{ github.event.repository.name }}
-
+          token: ${{ secrets.PAGES_TOKEN }}
 

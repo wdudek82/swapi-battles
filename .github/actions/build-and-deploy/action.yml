@@ -9,6 +9,8 @@ inputs:
     description: "Branch used as a base for deployment"
   environmentName:
     description: "Github environment name"
+  token:
+    description: "Deployment token"
 
 outputs:
   new-build-deployed:
@@ -18,12 +20,12 @@ outputs:
 runs:
   using: "composite"
 
-  permissions:
-    pages: write
-    id-token: write
-
-  environment:
-    name: ${{ inputs.environmentName }}
+#  permissions:
+#    pages: write
+#    id-token: write
+#
+#  environment:
+#    name: ${{ inputs.environmentName }}
 
   steps:
     - uses: actions/checkout@v4
@@ -44,4 +46,4 @@ runs:
       with:
         folder: ${{ inputs.buildFolder }}
         branch: ${{ inputs.deploymentBranch }}
-        token: ${{ secrets.PAGES_TOKEN }}
+        token: ${{ inputs.token }}
