@@ -54,6 +54,8 @@ jobs:
           draft: false
           prerelease: false
 
+      - uses: actions/checkout@v4
+
       - name: Build and deploy to Github pages
         uses: ./.github/actions/build-and-deploy
         with:
