@@ -4,7 +4,7 @@ describe("SW-API Battles Main Page Load Test", () => {
 
     // Assertion 1: Page Load Success (Optional)
     cy.url().should("include", "/swapi-battles/");  // Check if the URL path is correct
-    // cy.title().should("contain", "SW-API Battles"); // Or your expected page title
+    cy.title().should("contain", "SW-API Battles"); // Or your expected page title
 
     // Assertion 2: Toolbar Element with Text
     cy.get("app-header > mat-toolbar > mat-toolbar-row span").should(
