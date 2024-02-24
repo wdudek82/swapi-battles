@@ -1,6 +1,6 @@
 <app-header></app-header>
 
-<div class="main-container">
+<div class="main-container" data-testid="main-container">
   <app-game-board-component
     *ngIf="viewStatus === ViewStatus.SUCCESS; else tpl"
     [viewStatus]="viewStatus"
