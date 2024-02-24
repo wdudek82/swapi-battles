@@ -1,8 +1,5 @@
 # SWAPI Battles
 
-## Deployed app URI
-https://wdudek82.github.io/swapi-battles/ (used also as a baseUrl in Cypress e2e tests)
-
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.2.0.
 
 ## Development server
@@ -69,15 +66,15 @@ docker run -p 4200:80 swapi-battles-fe-prod
 
 ## Other
 - [x] add ESLint
-- [x] deploy to GH pages
+- [ ] deploy to GH pages
 - [x] include GH workflows:
   - [x] PR checks
-  - [x] automatic deployment to GH pages on merge to master or manual
+  - [ ] [UNFINISHED] automatic deployment to GH pages on merge to master or manual
 - [x] add Docker and docker-compose
   - [x] add relevant README instructions
 
 ## e2e test scenarios
-- [x] page loaded:
+- [x] main page loaded:
 1. page loaded
 2. page title
 3. header with span "SW-API Battles"
@@ -88,12 +85,18 @@ docker run -p 4200:80 swapi-battles-fe-prod
 1. button still active but its label is changed
 2. error toast visible
 
-- [ ] load game data button clicked (success):
+- [x] load game data button clicked (success):
 1. loading button disabled
 2. loader visible in the button
 3. loading window contains logs
 
-- [ ] loading finished:
+- [x] loading finished:
+1. loading button clicked
+2. when loading done:
+  - loading screen is not visible
+  - game board screen is visible
+
+- [x] game board loaded:
 1. visible: h1 containing: "Select units type and start the battle!"
 2. visible: 3 buttons:
   - Prepare people - enabled
