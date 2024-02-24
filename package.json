@@ -1,6 +1,6 @@
 {
   "name": "swapi-battles",
-  "version": "0.11.0",
+  "version": "0.12.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -8,7 +8,10 @@
     "build:prod": "ng build --configuration=production --base-href=/swapi-battles/",
     "watch": "ng build --watch --configuration development",
     "test": "ng test --karma-config=karma.conf.js",
-    "lint": "ng lint"
+    "lint": "ng lint",
+    "e2e": "ng e2e",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run"
   },
   "private": true,
   "dependencies": {
@@ -37,6 +40,7 @@
     "@angular-eslint/template-parser": "17.2.1",
     "@angular/cli": "^17.2.0",
     "@angular/compiler-cli": "^17.2.0",
+    "@cypress/schematic": "^2.5.1",
     "@types/jasmine": "~5.1.0",
     "@typescript-eslint/eslint-plugin": "6.19.0",
     "@typescript-eslint/parser": "6.19.0",
