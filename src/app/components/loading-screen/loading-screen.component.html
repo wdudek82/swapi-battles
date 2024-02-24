@@ -17,7 +17,7 @@
   <p
     *ngFor="let record of loadedGameData$ | async; index as i"
     [ngStyle]="{ backgroundColor: i % 2 === 0 ? 'lightblue' : 'lightgray' }"
-    data-testid="data-preloading-log"
+    [attr.data-testid]="'data-preloading-log-'+i"
   >
     {{ record | json }}
   </p>

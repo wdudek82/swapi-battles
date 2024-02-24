@@ -1,7 +1,7 @@
 <div
   class="status-container"
 >
-  <h1>Select units type and start the battle!</h1>
+  <h1 data-testid="game-board-header">Select units type and start the battle!</h1>
 
   <div class="game-board__container">
     <section class="game-buttons">
@@ -12,6 +12,7 @@
         color="primary"
         [disabled]="playersViewStatus === ViewStatus.LOADING"
         (click)="getRandomResourceOfTypeForPlayers(units)"
+        [attr.data-testid]="'prepare-' + units + '-btn'"
       >
         <span *ngIf="!isLoadingResource[units]">Prepare {{ units }}</span>
         <span *ngIf="isLoadingResource[units]">Preparing {{ units }}...</span>
@@ -22,6 +23,7 @@
         color="warn"
         [disabled]="isFightBtnDisabled()"
         (click)="calculateResult()"
+        data-testid="start-battle-btn"
       >
         Fight!
       </button>
