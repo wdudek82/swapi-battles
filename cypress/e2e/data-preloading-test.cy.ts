@@ -1,41 +1,66 @@
+import { PreloadPage } from '../support/preload-page';
+
+const preloadPage = new PreloadPage();
+
 describe('SW-API Battles data preloading test', () => {
-  it('Should preload data when load button clicked', () => {
+  beforeEach(() => {
     cy.visit('/');
+  });
 
-    cy.get('[data-testid="preloading-game-data-bnt"]').click();
+  it('Handles network outage on data load', () => {
+    cy.intercept('GET', 'https://swapi.tech/api/*', { statusCode: 500 }); // Simulate a server error
 
-    cy.get('[data-testid="preloading-game-data-bnt"]')
+    preloadPage.clickPreloadButton();
+
+    preloadPage.assertReloadInitialDataBtnIsVisibleAndEnabled();
+
+    preloadPage.assertErrorToastIsVisible();
+  });
+
+  it('Stars preloading data on retry when network outage has been resolved', () => {
+    cy.intercept('GET', 'https://swapi.tech/api/*', (req) => {
+      const res = { statusCode: 500 };
+      req.destroy();
+      return res;
+    });
+
+    preloadPage.clickPreloadButton();
+
+    preloadPage.assertReloadInitialDataBtnIsVisibleAndEnabled();
+
+    preloadPage.interceptPeopleListReq(2000);
+    preloadPage.interceptStarshipsListReq(2000);
+
+    preloadPage.clickPreloadButton();
+
+    preloadPage.preloadButton
+      .should('contain.text', 'Loading game data...')
+      .and('be.disabled');
+  });
+
+  it('Starts preloading data when load button clicked', () => {
+    preloadPage.interceptPeopleListReq(2000);
+    preloadPage.interceptStarshipsListReq(2000);
+
+    preloadPage.clickPreloadButton();
+
+    preloadPage.preloadButton
       .should('contain.text', 'Loading game data...')
       .should('have.class', 'mat-spinner')
       .and('be.disabled');
 
-    // Assertion 4: Game logs container is not empty when data is loaded
-    cy.get('[data-testid="preloading-logs-container"]', {
-      timeout: 13000,
-    }).contains('p[data-testid="data-preloading-log"]');
+    // Assertion: Game logs container is not empty when data is loaded
+    cy.get('[data-testid="preloading-logs-container"]').contains('p');
   });
 
-  it('Should handle network outage on data load', () => {
-    cy.visit('/');
+  it('Switches to game board screen after preloading data', () => {
+    preloadPage.interceptPeopleListReq();
+    preloadPage.interceptStarshipsListReq();
 
-    cy.intercept('GET', 'https://swapi.tech/api/*', { statusCode: 500 }); // Simulate a server error
+    preloadPage.clickPreloadButton();
 
-    cy.get('[data-testid="preloading-game-data-bnt"]').click();
-
-    cy.get('[data-testid="preloading-game-data-bnt"]')
-      .should('contain.text', 'Reload game data')
-      .and('not.be.disabled');
-
-    // Assertions for the error toast
-    cy.get('div.ngx-toastr.toast-error').should('be.visible');
-
-    cy.get('div.ngx-toastr.toast-error div.toast-title').should(
-      'contain.text',
-      'Preloading failed',
-    );
-    cy.get('div.ngx-toastr.toast-error div.toast-message').should(
-      'contain.text',
-      'Something went wrong...',
-    );
+    // Assertion 1: When loading is finished preloading screen is replaced by the game board screen.
+    cy.get('app-game-board-component').should('be.visible');
+    cy.get('app-loading-screen').should('not.exist');
   });
 });
