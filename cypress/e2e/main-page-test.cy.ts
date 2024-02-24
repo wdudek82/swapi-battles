@@ -7,17 +7,17 @@ describe('SW-API Battles Main Page Load Test', () => {
     cy.title().should('contain', 'SW-API Battles'); // Or your expected page title
 
     // Assertion 2: Toolbar Element with Text
-    cy.get('app-header > mat-toolbar > mat-toolbar-row span').should(
+    cy.get('[data-testid="toolbar"]').should(
       'contain.text',
       'SW-API Battles',
     );
 
     // Assertion 3: "Load game data" button exists and is enabled
-    cy.get('div.main-container app-loading-screen button')
-      .should('exist', 'contain.text', 'Load game data')
+    cy.get( '[data-testid="preloading-game-data-bnt"]')
+      .should( 'contain.text', 'Load game data')
       .and('not.be.disabled');
 
     // Assertion 4: Empty game logs div
-    cy.get('div.main-container div.game-logs').should('be.empty');
+    cy.get('[data-testid="preloading-logs-container"]').should('be.empty');
   });
 });
