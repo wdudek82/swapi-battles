@@ -1,0 +1,23 @@
+{
+  "message": "ok",
+  "result": {
+    "properties": {
+      "height": "unknown",
+      "mass": "unknown",
+      "hair_color": "brown",
+      "skin_color": "fair",
+      "eye_color": "brown",
+      "birth_year": "unknown",
+      "gender": "male",
+      "created": "2024-02-25T03:15:09.359Z",
+      "edited": "2024-02-25T03:15:09.359Z",
+      "name": "Arvel Crynyd",
+      "homeworld": "https://www.swapi.tech/api/planets/28",
+      "url": "https://www.swapi.tech/api/people/29"
+    },
+    "description": "A person within the Star Wars universe",
+    "_id": "5f63a36fee9fd7000499be5d",
+    "uid": "29",
+    "__v": 0
+  }
+}

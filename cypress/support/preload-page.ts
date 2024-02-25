@@ -26,6 +26,13 @@ export class PreloadPage {
     });
   }
 
+  preloadInitialGameData(): void {
+    this.interceptPeopleListReq();
+    this.interceptStarshipsListReq();
+
+    this.clickPreloadButton();
+  }
+
   assertErrorToastIsVisible(): void {
     this.errorToast.should('be.visible');
     cy.get('div.ngx-toastr.toast-error div.toast-title').should(

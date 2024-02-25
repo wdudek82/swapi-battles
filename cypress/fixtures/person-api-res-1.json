@@ -1,0 +1,23 @@
+{
+  "message": "ok",
+  "result": {
+    "properties": {
+      "height": "193",
+      "mass": "48",
+      "hair_color": "none",
+      "skin_color": "green, grey",
+      "eye_color": "unknown",
+      "birth_year": "unknown",
+      "gender": "male",
+      "created": "2024-02-25T03:15:09.359Z",
+      "edited": "2024-02-25T03:15:09.359Z",
+      "name": "Wat Tambor",
+      "homeworld": "https://www.swapi.tech/api/planets/56",
+      "url": "https://www.swapi.tech/api/people/76"
+    },
+    "description": "A person within the Star Wars universe",
+    "_id": "5f63a36fee9fd7000499be8c",
+    "uid": "76",
+    "__v": 0
+  }
+}

@@ -20,7 +20,7 @@ Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.
 
 ## Running end-to-end tests
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+Run `ng e2e` to execute [Cypress](https://www.cypress.io/) end-to-end tests.
 
 ## Further help
 
@@ -102,20 +102,26 @@ docker run -p 4200:80 swapi-battles-fe-prod
   - Prepare people - enabled
   - Prepare starships - enabled
   - Fight! - disabled
-3. no player cards visible in the main-container
+3. no player cards visible in the players-cards-container
 
-- [ ] Prepare people/starships button clicked:
+- [x] Prepare people/starships button clicked:
 1. all three buttons disabled during loading
 2. Prepare people button contains spinner
 
-- [ ] "People"/"Starships" units loaded:
-1. two app-player-card visible - all the data as in mocks
+- [x] "People"/"Starships" units loaded:
+1. two app-player-card of the correct type visible
 2. three buttons are now enabled, no loading
 
-- [ ] "Fight!" button clicked:
+- [x] "Fight!" button clicked:
 1. "Fight!" button disabled, two "Prepare" buttons enabled
 2. player cards styles updated
 3. scores in cards updated
+
+- [x] Player cards reloaded successfully
+1. select people cards
+2. people cards selected
+3. click selecting starships cards
+4. confirm that new cards are have been loaded
 
 # Unit tests test scenarios
 ..

@@ -6,15 +6,16 @@
     </mat-card-title-group>
   </mat-card-header>
   <mat-card-content>
-    <div>{{ getPlayerDetails() }}</div>
-    <div>Score: {{ score }}</div>
+    <div data-testid="player-compared-attribute">{{ getPlayerDetails() }}</div>
+    <div data-testid="player-score">Score: {{ score }}</div>
     <div
       [ngSwitch]="playerData.additions.battleOutcome"
       class="battle-outcome-text"
+      data-testid="battle-outcome"
     >
       <span *ngSwitchCase="BattleOutcome.VICTORY">Won</span>
       <span *ngSwitchCase="BattleOutcome.DEFEAT">Lost</span>
-      <span *ngSwitchCase="BattleOutcome.TIE">TIE</span>
+      <span *ngSwitchCase="BattleOutcome.TIE">Tie</span>
     </div>
   </mat-card-content>
 </mat-card>
