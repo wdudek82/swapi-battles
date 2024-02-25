@@ -5,6 +5,7 @@
   [mtBasicSpinner]="viewStatus === ViewStatus.LOADING"
   [disabled]="viewStatus === ViewStatus.LOADING"
   [ngSwitch]="viewStatus"
+  data-testid="preloading-game-data-bnt"
 >
   <span *ngSwitchCase="ViewStatus.LOADING">Loading game data...</span>
   <span *ngSwitchCase="ViewStatus.ERROR || ViewStatus.SUCCESS"
@@ -12,10 +13,11 @@
   >
   <span *ngSwitchDefault>Load game data</span>
 </button>
-<div class="game-logs">
+<div class="game-logs" data-testid="preloading-logs-container">
   <p
     *ngFor="let record of loadedGameData$ | async; index as i"
     [ngStyle]="{ backgroundColor: i % 2 === 0 ? 'lightblue' : 'lightgray' }"
+    [attr.data-testid]="'data-preloading-log-'+i"
   >
     {{ record | json }}
   </p>

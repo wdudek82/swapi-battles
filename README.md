@@ -20,7 +20,7 @@ Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.
 
 ## Running end-to-end tests
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+Run `ng e2e` to execute [Cypress](https://www.cypress.io/) end-to-end tests.
 
 ## Further help
 
@@ -52,12 +52,12 @@ docker run -p 4200:80 swapi-battles-fe-prod
   - [x] crew for starship
 - [x] render the attributes from the resource in a simple web page that allows
    you to 'play' the game,
-- [ ] ~~once two cards are displayed~~ once two card are displayed, and the user clicks "Fight!", button the app should declare one of the cards a winner based on
+- [x] ~~once two cards are displayed~~ once two card are displayed, and the user clicks "Fight!", button the app should declare one of the cards a winner based on
    the higher common attribute, (reason: changed for UX reasons)
 - [x] having displayed the winning card, the user should be able to play again using an action
    button that repeats the same request.
-- [ ] include unit tests
-- [ ] include e2e tests
+- [ ] include e2e tests (scenarios in section: "e2e test scenerios")
+- [ ] include unit tests (scenarios in section: "Unit tests test scenarios")
 
 ## Additional
 - [x] keep scores of all battles,
@@ -68,10 +68,63 @@ docker run -p 4200:80 swapi-battles-fe-prod
 - [x] add ESLint
 - [ ] deploy to GH pages
 - [x] include GH workflows:
-  - [ ] PR checks
-  - [ ] automatic deployment to GH pages on merge to master or manual
-- [ ] add Docker and docker-compose
-  - [ ] add relevant README instructions
+  - [x] PR checks
+  - [ ] [UNFINISHED] automatic deployment to GH pages on merge to master or manual
+- [x] add Docker and docker-compose
+  - [x] add relevant README instructions
+
+## e2e test scenarios
+- [x] main page loaded:
+1. page loaded
+2. page title
+3. header with span "SW-API Battles"
+4. "Load game data" button
+5. loading box
+
+- [x] data preloading failure:
+1. button still active but its label is changed
+2. error toast visible
+
+- [x] load game data button clicked (success):
+1. loading button disabled
+2. loader visible in the button
+3. loading window contains logs
+
+- [x] loading finished:
+1. loading button clicked
+2. when loading done:
+  - loading screen is not visible
+  - game board screen is visible
+
+- [x] game board loaded:
+1. visible: h1 containing: "Select units type and start the battle!"
+2. visible: 3 buttons:
+  - Prepare people - enabled
+  - Prepare starships - enabled
+  - Fight! - disabled
+3. no player cards visible in the players-cards-container
+
+- [x] Prepare people/starships button clicked:
+1. all three buttons disabled during loading
+2. Prepare people button contains spinner
+
+- [x] "People"/"Starships" units loaded:
+1. two app-player-card of the correct type visible
+2. three buttons are now enabled, no loading
+
+- [x] "Fight!" button clicked:
+1. "Fight!" button disabled, two "Prepare" buttons enabled
+2. player cards styles updated
+3. scores in cards updated
+
+- [x] Player cards reloaded successfully
+1. select people cards
+2. people cards selected
+3. click selecting starships cards
+4. confirm that new cards are have been loaded
+
+# Unit tests test scenarios
+..
 
 ## Comments
 When "Load game data" button is clicked, application tries to fetch all items list pages for people and starships from SW API.

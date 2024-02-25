@@ -4,12 +4,13 @@ import { UnitData } from '../../models/swapi.models';
 @Component({
   selector: 'app-player-cards-container',
   template: `
-    <section class="player-cards__container">
+    <section class="players-cards__container" data-testid="players-cards__container">
       <app-player-card
         *ngFor="let data of playersData; index as i"
         [subtitle]="'Player ' + (i + 1)"
         [playerData]="playersData[i]"
         [score]="scores[i]"
+        [attr.data-testid]="'player-card-' + i"
       ></app-player-card>
     </section>
   `,
