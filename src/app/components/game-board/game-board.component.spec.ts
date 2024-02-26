@@ -1,61 +1,35 @@
-import {
-  ComponentFixture,
-  fakeAsync,
-  TestBed,
-  tick,
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatCardModule } from '@angular/material/card';
+import { delay, of, throwError } from 'rxjs';
 import { NgxLoadingButtonsModule } from 'ngx-loading-buttons';
-import { ToastrModule, ToastrService } from 'ngx-toastr';
+import { ToastrModule } from 'ngx-toastr';
 import { PlayerCardsContainerComponent } from '../player-cards/player-cards-container.component';
-import { GameBoardComponentComponent } from './game-board-component.component';
+import { GameBoardComponent } from './game-board.component';
 import { BattleOutcome, UnitData, UnitType } from '../../models/swapi.models';
 import { PlayerCardComponent } from '../player-cards/player-card/player-card.component';
 import { ViewStatus } from '../../models/viewStatus';
 import { DataService } from '../../services/data.service';
-import { delay, of, throwError } from 'rxjs';
-
-const playersDataListMocks: UnitData[] = [
-  {
-    uid: '1',
-    name: 'Foo',
-    url: 'https://api/people/1',
-    additions: {
-      battleOutcome: BattleOutcome.NONE,
-      type: UnitType.people,
-    },
-  },
-  {
-    uid: '2',
-    name: 'Bar',
-    url: 'https://api/people/2',
-    additions: {
-      battleOutcome: BattleOutcome.NONE,
-      type: UnitType.people,
-    },
-  },
-];
+import {
+  playersDataListMocksForPeople,
+  playersDataListMocksForStarships,
+} from '../../mocks/playersData.mocks';
 
 describe('GameBoardComponentComponent', () => {
-  let component: GameBoardComponentComponent;
-  let fixture: ComponentFixture<GameBoardComponentComponent>;
+  let component: GameBoardComponent;
+  let fixture: ComponentFixture<GameBoardComponent>;
   let mockDataService: jasmine.SpyObj<DataService>;
-  let mockToastr: jasmine.SpyObj<ToastrService>;
 
   beforeEach(async () => {
     mockDataService = jasmine.createSpyObj('DataService', [
       'getRandomResourceOfType',
     ]);
-    mockToastr = jasmine.createSpyObj('ToastrService', [
-      'showRandomItemWarning',
-    ]);
 
     await TestBed.configureTestingModule({
       declarations: [
-        GameBoardComponentComponent,
+        GameBoardComponent,
         PlayerCardsContainerComponent,
         PlayerCardComponent,
       ],
@@ -67,13 +41,10 @@ describe('GameBoardComponentComponent', () => {
         MatToolbarModule,
         NgxLoadingButtonsModule,
       ],
-      providers: [
-        { provide: DataService, useValue: mockDataService },
-        { provide: ToastrService, useValue: mockToastr },
-      ],
+      providers: [{ provide: DataService, useValue: mockDataService }],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(GameBoardComponentComponent);
+    fixture = TestBed.createComponent(GameBoardComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -88,7 +59,7 @@ describe('GameBoardComponentComponent', () => {
     });
 
     it('disables "Fight!" button when there are players data but state is initial', () => {
-      component.playersData = playersDataListMocks;
+      component.playersData = playersDataListMocksForPeople;
       component.playersViewStatus = ViewStatus.INITIAL;
 
       fixture.detectChanges();
@@ -97,7 +68,7 @@ describe('GameBoardComponentComponent', () => {
     });
 
     it('disables "Fight!" button when the state is success, but second player card is missing', () => {
-      component.playersData = [playersDataListMocks[0]];
+      component.playersData = [playersDataListMocksForPeople[0]];
       component.playersViewStatus = ViewStatus.SUCCESS;
 
       fixture.detectChanges();
@@ -106,7 +77,7 @@ describe('GameBoardComponentComponent', () => {
     });
 
     it('enables "Fight!" button when there are players data and state is not initial', () => {
-      component.playersData = playersDataListMocks;
+      component.playersData = playersDataListMocksForPeople;
       component.playersViewStatus = ViewStatus.LOADING;
 
       fixture.detectChanges();
@@ -117,7 +88,7 @@ describe('GameBoardComponentComponent', () => {
 
   describe('resetBattleOutcomeForPlayers', () => {
     it('resets battle outcome of each player card', () => {
-      component.playersData = playersDataListMocks;
+      component.playersData = playersDataListMocksForPeople;
 
       const resetBattleOutcomeForPlayersSpy = spyOn<any>(
         component,
@@ -147,7 +118,7 @@ describe('GameBoardComponentComponent', () => {
 
   describe('updateScores', () => {
     it('compares player properties and updates the game scores', () => {
-      component.playersData = playersDataListMocks;
+      component.playersData = playersDataListMocksForPeople;
       expect(component.scores).toEqual([0, 0]);
 
       const updateScoresSpy = spyOn<any>(
@@ -198,7 +169,7 @@ describe('GameBoardComponentComponent', () => {
     // Test 1: Loading State
     it('sets correct state when loading resources', () => {
       mockDataService.getRandomResourceOfType.and.returnValue(
-        of(playersDataListMocks[0]).pipe(delay(100)),
+        of(playersDataListMocksForPeople[0]).pipe(delay(100)),
       );
 
       component.getRandomResourceOfTypeForPlayers(UnitType.people);
@@ -211,7 +182,7 @@ describe('GameBoardComponentComponent', () => {
     // Test 2: Success
     it('handles successful data retrieval', () => {
       mockDataService.getRandomResourceOfType.and.returnValue(
-        of(playersDataListMocks[0]),
+        of(playersDataListMocksForPeople[0]),
       );
 
       expect(component.playersData.length).toBe(0);
@@ -247,6 +218,103 @@ describe('GameBoardComponentComponent', () => {
       expect(component.playersViewStatus).toBe(ViewStatus.ERROR);
       expect(component.isLoadingResource[UnitType.people]).toBeFalse();
       expect(component.isLoadingResource[UnitType.starships]).toBeFalse();
+    });
+  });
+
+  describe('calculateResult', () => {
+    let updateScoresSpy: jasmine.Spy;
+    const peopleData: UnitData[] = playersDataListMocksForPeople;
+    const starshipsData: UnitData[] = playersDataListMocksForStarships;
+
+    beforeEach(() => {
+      updateScoresSpy = spyOn<any>(component, 'updateScores');
+    });
+
+    // Test 1: People Comparison
+    [
+      {
+        massA: '80',
+        massB: '70,500',
+        expectedMassA: 80,
+        expectedMassB: 70500,
+        explanation: 'calculates people scores when both values present',
+      },
+      {
+        massA: '80',
+        massB: 'unknown',
+        expectedMassA: 80,
+        expectedMassB: 0,
+        explanation: 'calculates people scores when one value is unknown',
+      },
+      {
+        massA: '80',
+        massB: undefined,
+        expectedMassA: 80,
+        expectedMassB: 0,
+        explanation: 'calculates people scores when one value is undefined',
+      },
+      {
+        massA: '80',
+        massB: '10-100',
+        expectedMassA: 80,
+        expectedMassB: 100,
+        explanation: 'calculates people scores when one value is range',
+      },
+    ].forEach(({ massA, massB, expectedMassA, expectedMassB, explanation }) => {
+      it(explanation, () => {
+        peopleData[0].properties!.mass = massA;
+        peopleData[1].properties!.mass = massB;
+        component.playersData = playersDataListMocksForPeople;
+
+        component.calculateResult();
+
+        expect(updateScoresSpy).toHaveBeenCalledWith(expectedMassA, expectedMassB);
+      });
+    });
+
+    // Test 2: Starships Comparison (Similar structure)
+    [
+      {
+        crewA: '80',
+        crewB: '70,500',
+        expectedCrewA: 80,
+        expectedCrewB: 70500,
+        explanation: 'calculates starships scores when both values present',
+      },
+      {
+        crewA: '80',
+        crewB: 'unknown',
+        expectedCrewA: 80,
+        expectedCrewB: 0,
+        explanation: 'calculates starships scores when one value is unknown',
+      },
+      {
+        crewA: '80',
+        crewB: undefined,
+        expectedCrewA: 80,
+        expectedCrewB: 0,
+        explanation: 'calculates starships scores when one value is undefined',
+      },
+      {
+        crewA: '80',
+        crewB: '10-100',
+        expectedCrewA: 80,
+        expectedCrewB: 100,
+        explanation: 'calculates starships scores when one value is range',
+      },
+    ].forEach(({ crewA, crewB, expectedCrewA, expectedCrewB, explanation }) => {
+      it(explanation, () => {
+        starshipsData[0].properties!.crew = crewA;
+        starshipsData[1].properties!.crew = crewB;
+        component.playersData = starshipsData;
+
+        component.calculateResult();
+
+        expect(updateScoresSpy).toHaveBeenCalledWith(
+          expectedCrewA,
+          expectedCrewB,
+        );
+      });
     });
   });
 });
