@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { concat } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { ViewStatus } from '../../models/viewStatus';
@@ -6,15 +6,13 @@ import { BattleOutcome, UnitData, UnitType } from '../../models/swapi.models';
 import { DataService } from '../../services/data.service';
 
 @Component({
-  selector: 'app-game-board-component',
-  templateUrl: './game-board-component.component.html',
-  styleUrl: './game-board-component.component.scss',
+  selector: 'app-game-board',
+  templateUrl: './game-board.component.html',
+  styleUrl: './game-board.component.scss',
 })
-export class GameBoardComponentComponent {
+export class GameBoardComponent {
   protected readonly ViewStatus = ViewStatus;
   protected readonly UnitType = UnitType;
-
-  @Input() viewStatus = ViewStatus.INITIAL;
 
   playersViewStatus = ViewStatus.INITIAL;
   isLoadingResource: Record<UnitType, boolean> = {
@@ -24,17 +22,17 @@ export class GameBoardComponentComponent {
   playersData: UnitData[] = [];
   scores: number[] = [0, 0];
 
-  constructor(
-    private dataService: DataService,
-    private toastr: ToastrService,
-  ) {}
-
-  isFightBtnDisabled(): boolean {
+  get isFightBtnDisabled(): boolean {
     return (
       this.playersData.length < 2 ||
       this.playersViewStatus === ViewStatus.INITIAL
     );
   }
+
+  constructor(
+    private dataService: DataService,
+    private toastr: ToastrService,
+  ) {}
 
   getRandomResourceOfTypeForPlayers(type: UnitType): void {
     this.isLoadingResource[type] = true;

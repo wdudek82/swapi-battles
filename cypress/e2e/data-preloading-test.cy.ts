@@ -54,13 +54,14 @@ describe('SW-API Battles data preloading test', () => {
   });
 
   it('Switches to game board screen after preloading data', () => {
-    preloadPage.interceptPeopleListReq();
-    preloadPage.interceptStarshipsListReq();
+    // preloadPage.interceptPeopleListReq();
+    // preloadPage.interceptStarshipsListReq();
 
+    // Loading real data to also test pagination handling
     preloadPage.clickPreloadButton();
 
     // Assertion 1: When loading is finished preloading screen is replaced by the game board screen.
-    cy.get('app-game-board-component').should('be.visible');
+    cy.get('app-game-board', { timeout: 60000 }).should('be.visible');
     cy.get('app-loading-screen').should('not.exist');
   });
 });
