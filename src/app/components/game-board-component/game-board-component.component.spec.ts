@@ -1,15 +1,22 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  fakeAsync,
+  TestBed,
+  tick,
+} from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatCardModule } from '@angular/material/card';
 import { NgxLoadingButtonsModule } from 'ngx-loading-buttons';
-import { ToastrModule } from 'ngx-toastr';
+import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { PlayerCardsContainerComponent } from '../player-cards/player-cards-container.component';
 import { GameBoardComponentComponent } from './game-board-component.component';
 import { BattleOutcome, UnitData, UnitType } from '../../models/swapi.models';
 import { PlayerCardComponent } from '../player-cards/player-card/player-card.component';
 import { ViewStatus } from '../../models/viewStatus';
+import { DataService } from '../../services/data.service';
+import { delay, of, throwError } from 'rxjs';
 
 const playersDataListMocks: UnitData[] = [
   {
@@ -35,8 +42,17 @@ const playersDataListMocks: UnitData[] = [
 describe('GameBoardComponentComponent', () => {
   let component: GameBoardComponentComponent;
   let fixture: ComponentFixture<GameBoardComponentComponent>;
+  let mockDataService: jasmine.SpyObj<DataService>;
+  let mockToastr: jasmine.SpyObj<ToastrService>;
 
   beforeEach(async () => {
+    mockDataService = jasmine.createSpyObj('DataService', [
+      'getRandomResourceOfType',
+    ]);
+    mockToastr = jasmine.createSpyObj('ToastrService', [
+      'showRandomItemWarning',
+    ]);
+
     await TestBed.configureTestingModule({
       declarations: [
         GameBoardComponentComponent,
@@ -51,6 +67,10 @@ describe('GameBoardComponentComponent', () => {
         MatToolbarModule,
         NgxLoadingButtonsModule,
       ],
+      providers: [
+        { provide: DataService, useValue: mockDataService },
+        { provide: ToastrService, useValue: mockToastr },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(GameBoardComponentComponent);
@@ -63,7 +83,6 @@ describe('GameBoardComponentComponent', () => {
   });
 
   describe('isFightBtnDisabled', () => {
-
     it('renders the component with "Fight!" button disabled', () => {
       expect(component.isFightBtnDisabled).toBeTruthy();
     });
@@ -116,8 +135,12 @@ describe('GameBoardComponentComponent', () => {
 
         resetBattleOutcomeForPlayersSpy.call(component);
 
-        expect(component.playersData[0].additions.battleOutcome).toBe(BattleOutcome.NONE);
-        expect(component.playersData[1].additions.battleOutcome).toBe(BattleOutcome.NONE);
+        expect(component.playersData[0].additions.battleOutcome).toBe(
+          BattleOutcome.NONE,
+        );
+        expect(component.playersData[1].additions.battleOutcome).toBe(
+          BattleOutcome.NONE,
+        );
       });
     });
   });
@@ -168,6 +191,62 @@ describe('GameBoardComponentComponent', () => {
           battleOutcomeB,
         );
       });
+    });
+  });
+
+  describe('getRandomResourceOfTypeForPlayers', () => {
+    // Test 1: Loading State
+    it('sets correct state when loading resources', () => {
+      mockDataService.getRandomResourceOfType.and.returnValue(
+        of(playersDataListMocks[0]).pipe(delay(100)),
+      );
+
+      component.getRandomResourceOfTypeForPlayers(UnitType.people);
+
+      expect(component.isLoadingResource[UnitType.people]).toBeTrue();
+      expect(component.isLoadingResource[UnitType.starships]).toBeFalse();
+      expect(component.playersViewStatus).toBe(ViewStatus.LOADING);
+    });
+
+    // Test 2: Success
+    it('handles successful data retrieval', () => {
+      mockDataService.getRandomResourceOfType.and.returnValue(
+        of(playersDataListMocks[0]),
+      );
+
+      expect(component.playersData.length).toBe(0);
+
+      component.getRandomResourceOfTypeForPlayers(UnitType.starships);
+
+      fixture.detectChanges();
+
+      expect(component.playersData.length).toBe(2);
+      expect(component.playersViewStatus).toBe(ViewStatus.SUCCESS);
+      expect(component.isLoadingResource[UnitType.people]).toBeFalse();
+      expect(component.isLoadingResource[UnitType.starships]).toBeFalse();
+    });
+
+    // Test 2: Error
+    it('handles error during data retrieval', () => {
+      const showRandomItemWarningSpy = spyOn<any>(
+        component,
+        'showRandomItemWarning',
+      );
+      mockDataService.getRandomResourceOfType.and.returnValue(
+        throwError(() => new Error('Failed loading')),
+      );
+
+      expect(component.playersData.length).toBe(0);
+
+      component.getRandomResourceOfTypeForPlayers(UnitType.starships);
+
+      fixture.detectChanges();
+
+      expect(showRandomItemWarningSpy).toHaveBeenCalled();
+      expect(component.playersData.length).toBe(0);
+      expect(component.playersViewStatus).toBe(ViewStatus.ERROR);
+      expect(component.isLoadingResource[UnitType.people]).toBeFalse();
+      expect(component.isLoadingResource[UnitType.starships]).toBeFalse();
     });
   });
 });
