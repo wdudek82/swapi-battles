@@ -17,7 +17,7 @@ describe('Game board page test', () => {
 
   it('Loads game board page after successful initial data preload', () => {
     // Assertion 1: When loading is finished preloading screen is replaced by the game board screen.
-    cy.get('app-game-board-component').should('be.visible');
+    cy.get('app-game-board').should('be.visible');
     cy.get('app-loading-screen').should('not.exist');
 
     // Assertion 2: All game board elements are visible

@@ -20,7 +20,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { LoadingScreenComponent } from './components/loading-screen/loading-screen.component';
 import { PlayerCardsContainerComponent } from './components/player-cards/player-cards-container.component';
 import { PlayerCardComponent } from './components/player-cards/player-card/player-card.component';
-import { GameBoardComponentComponent } from './components/game-board-component/game-board-component.component';
+import { GameBoardComponent } from './components/game-board/game-board.component';
 
 const materialUIModules = [
   MatCardModule,
@@ -43,7 +43,7 @@ const thirdPartyModules = [NgxLoadingButtonsModule, ToastrModule.forRoot()];
     AppComponent,
     HeaderComponent,
     LoadingScreenComponent,
-    GameBoardComponentComponent,
+    GameBoardComponent,
     PlayerCardsContainerComponent,
     PlayerCardComponent,
   ],

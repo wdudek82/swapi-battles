@@ -1,10 +1,10 @@
 <app-header></app-header>
 
 <div class="main-container" data-testid="main-container">
-  <app-game-board-component
+  <app-game-board
     *ngIf="viewStatus === ViewStatus.SUCCESS; else tpl"
     [viewStatus]="viewStatus"
-  ></app-game-board-component>
+  ></app-game-board>
 
   <ng-template #tpl>
     <app-loading-screen

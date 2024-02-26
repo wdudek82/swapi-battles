@@ -60,7 +60,7 @@ describe('SW-API Battles data preloading test', () => {
     preloadPage.clickPreloadButton();
 
     // Assertion 1: When loading is finished preloading screen is replaced by the game board screen.
-    cy.get('app-game-board-component').should('be.visible');
+    cy.get('app-game-board').should('be.visible');
     cy.get('app-loading-screen').should('not.exist');
   });
 });
