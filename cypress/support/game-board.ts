@@ -10,19 +10,13 @@ enum ComparedAttr {
 export enum BattleOutcomeLabel {
   WON = 'Won',
   LOST = 'Lost',
-  TIE = 'TIE'
+  TIE = 'TIE',
 }
 
 export const playersMocks = {
-  people: [
-    'person-api-res-1.json',
-    'person-api-res-2.json'
-  ],
-  starships: [
-    'starship-api-res-1.json',
-    'starship-api-res-2.json'
-  ]
-}
+  people: ['person-api-res-1.json', 'person-api-res-2.json'],
+  starships: ['starship-api-res-1.json', 'starship-api-res-2.json'],
+};
 
 export class GameBoard {
   get peopleCardsButton(): Chainable<JQuery<HTMLElement>> {
@@ -57,7 +51,11 @@ export class GameBoard {
     this.startBattleButton.click();
   }
 
-  interceptPlayerCardsRequests(type: UnitType, mockOne: string, mockTwo: string): void {
+  interceptPlayerCardsRequests(
+    type: UnitType,
+    mockOne: string,
+    mockTwo: string,
+  ): void {
     let requestCount = 0;
     cy.intercept('GET', `https://swapi.tech/api/${type}/*`, (req) => {
       requestCount += 1;
@@ -124,18 +122,29 @@ export class GameBoard {
   }
 
   assertNumberOfPlayerCardsLoaded(value: number): void {
-    cy.get('[data-testid="players-cards__container"]')
+    cy.get('[data-testid="players-cards__container"]', { timeout: 5000 })
       .children()
       .should('have.length', value);
   }
 
-  assertPlayerCardState(playerCard: Chainable<JQuery<HTMLElement>>, label: BattleOutcomeLabel, outcomeClass: BattleOutcome): void {
+  assertPlayerCardState(
+    playerCard: Chainable<JQuery<HTMLElement>>,
+    label: BattleOutcomeLabel,
+    outcomeClass: BattleOutcome,
+  ): void {
     playerCard.find('mat-card').should('have.class', outcomeClass);
-    playerCard.find('[data-testid="battle-outcome"]').should('contain.text', label);
+    playerCard
+      .find('[data-testid="battle-outcome"]')
+      .should('contain.text', label);
   }
 
-  assertPlayerCardScore(playerCard: Chainable<JQuery<HTMLElement>>, value: number): void {
-    playerCard.find('[data-testid="player-score"]').should('contain.text', `Score: ${value}`);
+  assertPlayerCardScore(
+    playerCard: Chainable<JQuery<HTMLElement>>,
+    value: number,
+  ): void {
+    playerCard
+      .find('[data-testid="player-score"]')
+      .should('contain.text', `Score: ${value}`);
   }
 
   assertInitialPlayersScore(): void {
