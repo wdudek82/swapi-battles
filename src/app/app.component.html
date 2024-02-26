@@ -3,7 +3,6 @@
 <div class="main-container" data-testid="main-container">
   <app-game-board
     *ngIf="viewStatus === ViewStatus.SUCCESS; else tpl"
-    [viewStatus]="viewStatus"
   ></app-game-board>
 
   <ng-template #tpl>
