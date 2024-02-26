@@ -56,8 +56,8 @@ docker run -p 4200:80 swapi-battles-fe-prod
    the higher common attribute, (reason: changed for UX reasons)
 - [x] having displayed the winning card, the user should be able to play again using an action
    button that repeats the same request.
-- [ ] include e2e tests (scenarios in section: "e2e test scenerios")
-- [ ] include unit tests (scenarios in section: "Unit tests test scenarios")
+- [x] include e2e tests (scenarios in section: "e2e test scenerios")
+- [x] include unit tests (scenarios in section: "Unit tests test scenarios")
 
 ## Additional
 - [x] keep scores of all battles,
